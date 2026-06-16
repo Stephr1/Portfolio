@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Kevdog Productions</title>
+  <meta name="description" content="Photo gallery — Kevin Heieis photographer and videographer. Proposals, portraits, corporate events, nightlife, and sports." />
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/tabler-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="gallery-page-header">
+  <a href="index.html" class="logo" aria-label="Kevdog Productions home">
+    <div class="logo-emoji" aria-hidden="true">🐶</div>
+    <span class="logo-text">Kevdog Productions</span>
+  </a>
+
+  <nav style="display:flex;gap:4px;" aria-label="Site navigation">
+    <a href="index.html#section-photo" class="nav-link">Photo</a>
+    <a href="index.html#section-video" class="nav-link">Video</a>
+    <a href="index.html#section-about" class="nav-link">About</a>
+    <a href="gallery.html" class="nav-link active">Gallery</a>
+  </nav>
+
+  <div class="header-icons">
+    <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener" aria-label="Instagram @kevdog.productions">
+      <i class="ti ti-brand-instagram" aria-hidden="true"></i>
+    </a>
+    <a href="mailto:kevin@kevdog.productions" aria-label="Email Kevin">
+      <i class="ti ti-mail" aria-hidden="true"></i>
+    </a>
+  </div>
+</header>
+
+
+<!-- ===== PAGE HERO ===== -->
+<div class="gallery-hero">
+  <h1>Portfolio</h1>
+  <p>A selection of Kevin's best work across proposals, portraits, corporate events, nightlife, and sports.</p>
+</div>
+
+
+<!-- ===== FILTER BUTTONS ===== -->
+<div class="gallery-filters" role="group" aria-label="Filter by category">
+  <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+  <button class="filter-btn" onclick="filterGallery('proposals', this)">Proposals</button>
+  <button class="filter-btn" onclick="filterGallery('corporate', this)">Corporate</button>
+  <button class="filter-btn" onclick="filterGallery('parties', this)">Parties</button>
+  <button class="filter-btn" onclick="filterGallery('portraits', this)">Portraits</button>
+  <button class="filter-btn" onclick="filterGallery('nightlife', this)">Nightlife</button>
+  <button class="filter-btn" onclick="filterGallery('sports', this)">Sports</button>
+</div>
+
+
+<!-- ===== MASONRY GALLERY ===== -->
+<!--
+  HOW TO ADD YOUR PHOTOS:
+  1. Place your image files in the images/gallery/ folder.
+  2. For each image, copy one <div class="masonry-item"> block below.
+  3. Set data-category to one of: proposals | corporate | parties | portraits | nightlife | sports
+  4. Replace the <div class="masonry-placeholder"> with:
+       <img src="images/gallery/your-photo.jpg" alt="Descriptive alt text" loading="lazy">
+  5. Update the data-caption to describe the photo.
+  The columns and lightbox are handled automatically.
+-->
+<div class="masonry-grid" id="gallery-grid">
+
+  <!-- PROPOSALS -->
+  <div class="masonry-item" data-category="proposals" data-caption="Proposal" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:280px;"><i class="ti ti-ring" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Proposals</div>
+  </div>
+
+  <div class="masonry-item" data-category="proposals" data-caption="Proposal" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:220px;"><i class="ti ti-ring" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Proposals</div>
+  </div>
+
+  <!-- PORTRAITS -->
+  <div class="masonry-item" data-category="portraits" data-caption="Portrait session" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:340px;"><i class="ti ti-user-circle" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Portraits</div>
+  </div>
+
+  <div class="masonry-item" data-category="portraits" data-caption="Portrait session" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:260px;"><i class="ti ti-user-circle" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Portraits</div>
+  </div>
+
+  <!-- CORPORATE -->
+  <div class="masonry-item" data-category="corporate" data-caption="Corporate event" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:240px;"><i class="ti ti-building-skyscraper" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Corporate Events</div>
+  </div>
+
+  <div class="masonry-item" data-category="corporate" data-caption="Corporate event" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:300px;"><i class="ti ti-building-skyscraper" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Corporate Events</div>
+  </div>
+
+  <!-- PARTIES -->
+  <div class="masonry-item" data-category="parties" data-caption="Private party" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:260px;"><i class="ti ti-confetti" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Private Parties</div>
+  </div>
+
+  <div class="masonry-item" data-category="parties" data-caption="Private party" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:200px;"><i class="ti ti-confetti" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Private Parties</div>
+  </div>
+
+  <!-- NIGHTLIFE -->
+  <div class="masonry-item" data-category="nightlife" data-caption="Nightlife" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:320px;"><i class="ti ti-music" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Nightlife</div>
+  </div>
+
+  <div class="masonry-item" data-category="nightlife" data-caption="Nightlife" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:240px;"><i class="ti ti-music" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Nightlife</div>
+  </div>
+
+  <!-- SPORTS -->
+  <div class="masonry-item" data-category="sports" data-caption="Sports" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:260px;"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Sports</div>
+  </div>
+
+  <div class="masonry-item" data-category="sports" data-caption="Sports" onclick="openLightbox(this)">
+    <div class="masonry-placeholder" style="height:300px;"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+    <div class="masonry-overlay">Sports</div>
+  </div>
+
+</div><!-- /.masonry-grid -->
+
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close photo">
+    <i class="ti ti-x" aria-hidden="true"></i>
+  </button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+
+<!-- ===== CTA BAR ===== -->
+<div style="text-align:center;padding:0 32px 60px;">
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">Like what you see? Let's work together.</p>
+  <!-- BOOKING: Replace href with your Google Calendar appointment link -->
+  <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+</div>
+
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <span>© 2025 Kevdog Productions · Kevin Heieis</span>
+  <div style="display:flex;gap:20px;align-items:center;">
+    <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener">
+      <i class="ti ti-brand-instagram" aria-hidden="true"></i> @kevdog.productions
+    </a>
+    <a href="mailto:kevin@kevdog.productions">
+      <i class="ti ti-mail" aria-hidden="true"></i> Email
+    </a>
+    <a href="index.html">← Back to Home</a>
+  </div>
+</footer>
+
+
+<script>
+/* ===== Gallery filter ===== */
+function filterGallery(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.masonry-item').forEach(item => {
+    const match = category === 'all' || item.dataset.category === category;
+    item.style.display = match ? 'block' : 'none';
+  });
+}
+
+/* ===== Lightbox ===== */
+function openLightbox(item) {
+  const img = item.querySelector('img');
+  if (!img) return; // no real image yet — skip
+
+  const lightbox = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-img').alt = img.alt;
+  document.getElementById('lightbox-caption').textContent = item.dataset.caption || '';
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(event) {
+  if (event && event.target !== document.getElementById('lightbox')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+});
+
+/* ===== Wire booking links ===== */
+const BOOKING = 'https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID';
+document.querySelectorAll('[href*="YOUR_SCHEDULE_ID"]').forEach(el => { el.href = BOOKING; });
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kevdog Productions — Photography & Videography</title>
+  <meta name="description" content="Kevin Heieis — photographer and videographer capturing proposals, corporate events, portraits, nightlife, sports, and more. UBC graduate serving Vancouver and beyond." />
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/tabler-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== FIXED HEADER ===== -->
+<header id="site-header">
+  <a href="index.html" class="logo" aria-label="Kevdog Productions home">
+    <!-- Swap the emoji below for: <img src="images/logo.png" alt="Kevdog Productions logo"> -->
+    <div class="logo-emoji" aria-hidden="true">🐶</div>
+    <span class="logo-text">Kevdog Productions</span>
+  </a>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-link active" onclick="switchTab('photo', this)">Photo</button>
+    <button class="nav-link" onclick="switchTab('video', this)">Video</button>
+    <button class="nav-link" onclick="switchTab('about', this)">About</button>
+    <a href="gallery.html" class="nav-link">Gallery</a>
+  </nav>
+
+  <div class="header-icons">
+    <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener" aria-label="Instagram @kevdog.productions">
+      <i class="ti ti-brand-instagram" aria-hidden="true"></i>
+    </a>
+    <a href="mailto:kevin@kevdog.productions" aria-label="Email Kevin">
+      <i class="ti ti-mail" aria-hidden="true"></i>
+    </a>
+  </div>
+</header>
+
+
+<!-- ===== HERO — full-page video background ===== -->
+<section id="hero" aria-label="Kevdog Productions showreel">
+  <!--
+    INSTRUCTIONS: Replace the src below with your video file or a YouTube embed.
+    For a local file: <source src="images/reel.mp4" type="video/mp4">
+    For a YouTube embed, remove the <video> tag entirely and use an iframe instead.
+  -->
+  <video id="hero-video" autoplay muted loop playsinline poster="images/hero-poster.jpg">
+    <source src="images/reel.mp4" type="video/mp4">
+    <!-- Fallback if video is missing — just shows the poster/overlay -->
+  </video>
+
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">kevdog.productions</p>
+    <h1 class="hero-title">Kevdog Productions</h1>
+    <p class="hero-sub">Emotions of the moment captured to show your</p>
+    <p class="hero-rotate-line">
+      <span class="hero-rotate-word" id="hero-word">Memory</span>
+    </p>
+    <div class="hero-btns">
+      <a href="#main-content" class="btn-primary" onclick="scrollToMain()">View Work</a>
+      <!-- BOOKING: Replace the href with your Google Calendar appointment link -->
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-outline">Book a Session</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <i class="ti ti-chevron-down"></i>
+    <span>scroll</span>
+  </div>
+</section>
+
+
+<!-- ===== TAB BAR ===== -->
+<div id="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('photo', this)">
+    <i class="ti ti-camera" aria-hidden="true"></i> Photo
+  </button>
+  <button class="tab-btn" onclick="switchTab('video', this)">
+    <i class="ti ti-video" aria-hidden="true"></i> Video
+  </button>
+  <button class="tab-btn" onclick="switchTab('about', this)">
+    <i class="ti ti-user" aria-hidden="true"></i> About
+  </button>
+  <a href="gallery.html" class="tab-btn">
+    <i class="ti ti-layout-masonry" aria-hidden="true"></i> Full Gallery
+  </a>
+</div>
+
+
+<!-- ===== MAIN CONTENT ===== -->
+<main id="main-content">
+
+  <!-- ====== PHOTO SECTION ====== -->
+  <section id="section-photo" class="section active" aria-label="Photography services">
+    <div class="section-hero">
+      <p class="section-eyebrow">Photography</p>
+      <h2 class="section-title">Every moment deserves to be remembered</h2>
+      <p class="section-tagline">
+        Capturing emotions that show your
+        <span class="rotate-word" id="photo-word">Memory</span>
+      </p>
+    </div>
+
+    <div class="photo-grid">
+
+      <div class="photo-card" onclick="openPhotoModal('proposals')">
+        <div class="photo-card-img">
+          <!-- Replace with: <img src="images/proposals-cover.jpg" alt="Proposal photography"> -->
+          <i class="ti ti-ring photo-card-placeholder" aria-hidden="true"></i>
+        </div>
+        <div class="photo-card-label">Proposals</div>
+      </div>
+
+      <div class="photo-card" onclick="openPhotoModal('corporate')">
+        <div class="photo-card-img">
+          <i class="ti ti-building-skyscraper photo-card-placeholder" aria-hidden="true"></i>
+        </div>
+        <div class="photo-card-label">Corporate Events</div>
+      </div>
+
+      <div class="photo-card" onclick="openPhotoModal('parties')">
+        <div class="photo-card-img">
+          <i class="ti ti-confetti photo-card-placeholder" aria-hidden="true"></i>
+        </div>
+        <div class="photo-card-label">Private Parties</div>
+      </div>
+
+      <div class="photo-card" onclick="openPhotoModal('portraits')">
+        <div class="photo-card-img">
+          <i class="ti ti-user-circle photo-card-placeholder" aria-hidden="true"></i>
+        </div>
+        <div class="photo-card-label">Portraits</div>
+      </div>
+
+      <div class="photo-card" onclick="openPhotoModal('nightlife')">
+        <div class="photo-card-img">
+          <i class="ti ti-music photo-card-placeholder" aria-hidden="true"></i>
+        </div>
+        <div class="photo-card-label">Nightlife</div>
+      </div>
+
+      <div class="photo-card" onclick="openPhotoModal('sports')">
+        <div class="photo-card-img">
+          <i class="ti ti-trophy photo-card-placeholder" aria-hidden="true"></i>
+        </div>
+        <div class="photo-card-label">Sports</div>
+      </div>
+
+    </div>
+
+    <div class="gallery-link-wrap">
+      <p>Want to see more? Explore the full portfolio.</p>
+      <a href="gallery.html" class="btn-outline">View Full Gallery →</a>
+    </div>
+
+    <div class="pricing-bar">
+      <strong>Pricing by project</strong> — starting at $50 for individual portraits · $100/hr for events<br>
+      Discounted rates for new artists &amp; non-profit organizations
+    </div>
+
+    <div class="cta-center">
+      <!-- BOOKING: Replace href with your Google Calendar appointment scheduling link -->
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+    </div>
+  </section>
+
+
+  <!-- ====== VIDEO SECTION ====== -->
+  <section id="section-video" class="section" aria-label="Videography services">
+    <div class="section-hero">
+      <p class="section-eyebrow">Videography</p>
+      <h2 class="section-title">Script writing, production &amp; media training</h2>
+      <p class="section-tagline">
+        Designed for your
+        <span class="rotate-word" id="video-word">client</span>
+      </p>
+    </div>
+
+    <div class="video-grid">
+
+      <div class="video-card" onclick="openVideoModal('Political Messaging', '')">
+        <div class="video-card-thumb">
+          <!-- Replace with: <img src="images/video-political.jpg" alt="Political messaging video"> -->
+          <div class="play-circle" aria-hidden="true">
+            <i class="ti ti-player-play"></i>
+          </div>
+        </div>
+        <div class="video-card-label">Political Messaging</div>
+      </div>
+
+      <div class="video-card" onclick="openVideoModal('Music Productions', '')">
+        <div class="video-card-thumb">
+          <div class="play-circle" aria-hidden="true">
+            <i class="ti ti-player-play"></i>
+          </div>
+        </div>
+        <div class="video-card-label">Music Productions</div>
+      </div>
+
+      <div class="video-card" onclick="openVideoModal('Sporting Events', '')">
+        <div class="video-card-thumb">
+          <div class="play-circle" aria-hidden="true">
+            <i class="ti ti-player-play"></i>
+          </div>
+        </div>
+        <div class="video-card-label">Sporting Events</div>
+      </div>
+
+      <div class="video-card" onclick="openVideoModal('Community Events', '')">
+        <div class="video-card-thumb">
+          <div class="play-circle" aria-hidden="true">
+            <i class="ti ti-player-play"></i>
+          </div>
+        </div>
+        <div class="video-card-label">Community Events</div>
+      </div>
+
+    </div>
+
+    <div class="pricing-bar">
+      <strong>Pricing by project</strong> — starting at $200<br>
+      Discounted rates for new artists &amp; non-profit organizations
+    </div>
+
+    <div class="cta-center">
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+    </div>
+  </section>
+
+
+  <!-- ====== ABOUT SECTION ====== -->
+  <section id="section-about" class="section" aria-label="About Kevin">
+    <div class="section-hero">
+      <p class="section-eyebrow">The Photographer</p>
+      <h2 class="section-title">Kevin Heieis</h2>
+    </div>
+
+    <div class="about-inner">
+      <div class="about-profile">
+        <div class="about-avatar">
+          <!-- Replace with: <img src="images/kevin.jpg" alt="Kevin Heieis"> -->
+          🐶
+        </div>
+        <div>
+          <h3 class="about-name">Kevin Heieis</h3>
+          <p class="about-role">Photographer &amp; Videographer · UBC Graduate</p>
+          <p class="about-bio">
+            Kevin captures the raw emotions and energy of every moment — from
+            intimate proposals to large-scale sporting events. A UBC graduate with
+            an eye for cinematic storytelling, Kevin brings warmth, creativity, and
+            professionalism to every shoot. Whether you need a polished corporate
+            reel or a personal portrait session, Kevdog Productions delivers images
+            and video that truly reflect who you are.
+          </p>
+          <div class="about-chips">
+            <span class="chip">UBC Graduate</span>
+            <span class="chip">Photography</span>
+            <span class="chip">Videography</span>
+            <span class="chip">Script Writing</span>
+            <span class="chip">Media Training</span>
+            <span class="chip">Vancouver, BC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <h3>Ready to work together?</h3>
+        <p>Book a free 15-minute discovery call or reach out directly.</p>
+        <div class="about-cta-btns">
+          <!-- BOOKING: Replace href with your Google Calendar appointment scheduling link -->
+          <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book via Google Calendar</a>
+          <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener" class="btn-outline">@kevdog.productions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ===== VIDEO MODAL ===== -->
+<div class="modal-backdrop" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text" onclick="closeVideoModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title-text">Video</span>
+      <button class="modal-close" onclick="closeVideoModal()" aria-label="Close video">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div id="modal-body">
+      <div class="modal-placeholder">
+        <i class="ti ti-video-off" aria-hidden="true"></i>
+        <span>Add your YouTube or Vimeo link in script.js</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <span>© 2025 Kevdog Productions · Kevin Heieis</span>
+  <div style="display:flex;gap:20px;align-items:center;">
+    <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener" aria-label="Instagram">
+      <i class="ti ti-brand-instagram" aria-hidden="true"></i> @kevdog.productions
+    </a>
+    <a href="mailto:kevin@kevdog.productions">
+      <i class="ti ti-mail" aria-hidden="true"></i> Email
+    </a>
+    <a href="gallery.html">Gallery</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
