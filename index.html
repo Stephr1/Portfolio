@@ -14,16 +14,6 @@
 </head>
 <body>
 
-<!-- ===== FIXED HEADER ===== -->
-<header id="site-header">
-  <a href="index.html" class="logo" aria-label="Kevdog Productions home">
-    <!-- Swap the emoji below for: <img src="images/logo.png" alt="Kevdog Productions logo"> -->
-    <div class="logo-emoji" aria-hidden="true">🐶</div>
-    <span class="logo-text">Kevdog Productions</span>
-  </a>
-</header>
-
-
 <!-- ===== HERO — full-page video background ===== -->
 <section id="hero" aria-label="Kevdog Productions showreel">
   <!--
@@ -40,14 +30,6 @@
 
   <div class="hero-content">
     <h1 class="hero-title">Kevdog Productions</h1>
-    <p class="section-tagline hero-tagline active" data-tagline="photo">
-      Capturing emotions that show your
-      <span class="rotate-word-wrap" data-rotate="photo-word"><span class="rotate-word">Memory</span></span>
-    </p>
-    <p class="section-tagline hero-tagline" data-tagline="video">
-      Designed for your
-      <span class="rotate-word-wrap" data-rotate="video-word"><span class="rotate-word">client</span></span>
-    </p>
     <div class="hero-tabs">
       <button class="tab-btn active" onclick="switchTab('photo', this)">
         <i class="ti ti-camera" aria-hidden="true"></i> Photography
@@ -62,6 +44,14 @@
         <i class="ti ti-user" aria-hidden="true"></i> About
       </button>
     </div>
+    <p class="section-tagline hero-tagline active" data-tagline="photo">
+      Capturing emotions that highlight your
+      <span class="rotate-word-wrap" data-rotate="photo-word"><span class="rotate-word">Memories</span></span>
+    </p>
+    <p class="section-tagline hero-tagline" data-tagline="video">
+      Created to engage your
+      <span class="rotate-word-wrap" data-rotate="video-word"><span class="rotate-word">clients</span></span>
+    </p>
   </div>
 </section>
 
@@ -73,30 +63,58 @@
   <section id="section-photo" class="section active" aria-label="Photography services">
     <div class="photo-grid">
 
-      <div class="photo-card" onclick="openPhotoModal('nightlife')">
+      <div class="photo-card nightlife-card">
         <div class="photo-card-img">
-          <img src="images/covers/nightlife.svg" alt="Nightlife photography sample">
+          <button class="photo-carousel-nav prev" onclick="changeNightlifePhoto(-1)" aria-label="Previous photo">
+            <span aria-hidden="true" class="photo-arrow">‹</span>
+          </button>
+          <img id="nightlife-carousel-img" src="images/covers/Music-1.png" alt="Nightlife photo 1">
+          <div class="nightlife-caption" id="nightlife-caption">Loud Luxury - Joe</div>
+          <button class="photo-carousel-nav next" onclick="changeNightlifePhoto(1)" aria-label="Next photo">
+            <span aria-hidden="true" class="photo-arrow">›</span>
+          </button>
         </div>
         <div class="photo-card-label">Nightlife</div>
       </div>
 
-      <div class="photo-card" onclick="openPhotoModal('corporate')">
+      <div class="photo-card corporate-card">
         <div class="photo-card-img">
-          <img src="images/covers/corporate.svg" alt="Corporate event photography sample">
+          <button class="photo-carousel-nav prev" onclick="changeCorporatePhoto(-1)" aria-label="Previous photo">
+            <span aria-hidden="true" class="photo-arrow">‹</span>
+          </button>
+          <img id="corporate-carousel-img" src="images/covers/Corperate-1.png" alt="Corporate photo 1">
+          <div class="nightlife-caption" id="corporate-caption"></div>
+          <button class="photo-carousel-nav next" onclick="changeCorporatePhoto(1)" aria-label="Next photo">
+            <span aria-hidden="true" class="photo-arrow">›</span>
+          </button>
         </div>
         <div class="photo-card-label">Corporate Events</div>
       </div>
 
-      <div class="photo-card" onclick="openPhotoModal('parties')">
+      <div class="photo-card proposal-card">
         <div class="photo-card-img">
-          <img src="images/covers/parties.svg" alt="Private party photography sample">
+          <button class="photo-carousel-nav prev" onclick="changeProposalPhoto(-1)" aria-label="Previous photo">
+            <span aria-hidden="true" class="photo-arrow">‹</span>
+          </button>
+          <img id="proposal-carousel-img" src="images/covers/Proposal-1.png" alt="Proposal photo 1">
+          <div class="nightlife-caption" id="proposal-caption"></div>
+          <button class="photo-carousel-nav next" onclick="changeProposalPhoto(1)" aria-label="Next photo">
+            <span aria-hidden="true" class="photo-arrow">›</span>
+          </button>
         </div>
-        <div class="photo-card-label">Private Parties</div>
+        <div class="photo-card-label">Proposals</div>
       </div>
 
-      <div class="photo-card" onclick="openPhotoModal('portraits')">
+      <div class="photo-card portrait-card">
         <div class="photo-card-img">
-          <img src="images/covers/portraits.svg" alt="Portrait photography sample">
+          <button class="photo-carousel-nav prev" onclick="changePortraitPhoto(-1)" aria-label="Previous photo">
+            <span aria-hidden="true" class="photo-arrow">‹</span>
+          </button>
+          <img id="portrait-carousel-img" src="images/covers/Portrait-1.png" alt="Portrait photo 1">
+          <div class="nightlife-caption" id="portrait-caption"></div>
+          <button class="photo-carousel-nav next" onclick="changePortraitPhoto(1)" aria-label="Next photo">
+            <span aria-hidden="true" class="photo-arrow">›</span>
+          </button>
         </div>
         <div class="photo-card-label">Portraits</div>
       </div>
@@ -108,9 +126,16 @@
         <div class="photo-card-label">Proposals</div>
       </div>
 
-      <div class="photo-card" onclick="openPhotoModal('sports')">
+      <div class="photo-card sports-card">
         <div class="photo-card-img">
-          <img src="images/covers/sports.svg" alt="Sports photography sample">
+          <button class="photo-carousel-nav prev" onclick="changeSportsPhoto(-1)" aria-label="Previous photo">
+            <span aria-hidden="true" class="photo-arrow">‹</span>
+          </button>
+          <img id="sports-carousel-img" src="images/covers/Sports-1.png" alt="Sports photo 1">
+          <div class="nightlife-caption" id="sports-caption"></div>
+          <button class="photo-carousel-nav next" onclick="changeSportsPhoto(1)" aria-label="Next photo">
+            <span aria-hidden="true" class="photo-arrow">›</span>
+          </button>
         </div>
         <div class="photo-card-label">Sports</div>
       </div>
