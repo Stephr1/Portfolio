@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Portrait photography sample">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0d0d"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#1a6fd4" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1a6fd4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#spot)"/>
+  <circle cx="400" cy="230" r="80" fill="#E8AE4C" opacity="0.9"/>
+  <path d="M260 470 C260 370 340 330 400 330 C460 330 540 370 540 470 Z" fill="#E8AE4C" opacity="0.9"/>
+  <rect y="470" width="800" height="130" fill="#000000"/>
+  <text x="60" y="555" font-family="Georgia, serif" font-size="42" fill="#ede8df">Portraits</text>
+  <text x="60" y="580" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#7a8fa8">SAMPLE PLACEHOLDER</text>
+</svg>

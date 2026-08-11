@@ -6,6 +6,9 @@
   <title>Kevdog Productions — Photography & Videography</title>
   <meta name="description" content="Kevin Heieis — photographer and videographer capturing proposals, corporate events, portraits, nightlife, sports, and more. UBC graduate serving Vancouver and beyond." />
   <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/tabler-icons.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -18,22 +21,6 @@
     <div class="logo-emoji" aria-hidden="true">🐶</div>
     <span class="logo-text">Kevdog Productions</span>
   </a>
-
-  <nav class="main-nav" aria-label="Main navigation">
-    <button class="nav-link active" onclick="switchTab('photo', this)">Photo</button>
-    <button class="nav-link" onclick="switchTab('video', this)">Video</button>
-    <button class="nav-link" onclick="switchTab('about', this)">About</button>
-    <a href="gallery.html" class="nav-link">Gallery</a>
-  </nav>
-
-  <div class="header-icons">
-    <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener" aria-label="Instagram @kevdog.productions">
-      <i class="ti ti-brand-instagram" aria-hidden="true"></i>
-    </a>
-    <a href="mailto:kevin@kevdog.productions" aria-label="Email Kevin">
-      <i class="ti ti-mail" aria-hidden="true"></i>
-    </a>
-  </div>
 </header>
 
 
@@ -52,41 +39,31 @@
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="hero-content">
-    <p class="hero-eyebrow">kevdog.productions</p>
     <h1 class="hero-title">Kevdog Productions</h1>
-    <p class="hero-sub">Emotions of the moment captured to show your</p>
-    <p class="hero-rotate-line">
-      <span class="hero-rotate-word" id="hero-word">Memory</span>
+    <p class="section-tagline hero-tagline active" data-tagline="photo">
+      Capturing emotions that show your
+      <span class="rotate-word-wrap" data-rotate="photo-word"><span class="rotate-word">Memory</span></span>
     </p>
-    <div class="hero-btns">
-      <a href="#main-content" class="btn-primary" onclick="scrollToMain()">View Work</a>
-      <!-- BOOKING: Replace the href with your Google Calendar appointment link -->
-      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-outline">Book a Session</a>
+    <p class="section-tagline hero-tagline" data-tagline="video">
+      Designed for your
+      <span class="rotate-word-wrap" data-rotate="video-word"><span class="rotate-word">client</span></span>
+    </p>
+    <div class="hero-tabs">
+      <button class="tab-btn active" onclick="switchTab('photo', this)">
+        <i class="ti ti-camera" aria-hidden="true"></i> Photography
+      </button>
+      <button class="tab-btn" onclick="switchTab('video', this)">
+        <i class="ti ti-video" aria-hidden="true"></i> Videography
+      </button>
+      <button class="tab-btn" onclick="switchTab('mediatraining', this)">
+        <i class="ti ti-microphone" aria-hidden="true"></i> Media Training
+      </button>
+      <button class="tab-btn" onclick="switchTab('about', this)">
+        <i class="ti ti-user" aria-hidden="true"></i> About
+      </button>
     </div>
   </div>
-
-  <div class="hero-scroll" aria-hidden="true">
-    <i class="ti ti-chevron-down"></i>
-    <span>scroll</span>
-  </div>
 </section>
-
-
-<!-- ===== TAB BAR ===== -->
-<div id="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('photo', this)">
-    <i class="ti ti-camera" aria-hidden="true"></i> Photo
-  </button>
-  <button class="tab-btn" onclick="switchTab('video', this)">
-    <i class="ti ti-video" aria-hidden="true"></i> Video
-  </button>
-  <button class="tab-btn" onclick="switchTab('about', this)">
-    <i class="ti ti-user" aria-hidden="true"></i> About
-  </button>
-  <a href="gallery.html" class="tab-btn">
-    <i class="ti ti-layout-masonry" aria-hidden="true"></i> Full Gallery
-  </a>
-</div>
 
 
 <!-- ===== MAIN CONTENT ===== -->
@@ -94,56 +71,46 @@
 
   <!-- ====== PHOTO SECTION ====== -->
   <section id="section-photo" class="section active" aria-label="Photography services">
-    <div class="section-hero">
-      <p class="section-eyebrow">Photography</p>
-      <h2 class="section-title">Every moment deserves to be remembered</h2>
-      <p class="section-tagline">
-        Capturing emotions that show your
-        <span class="rotate-word" id="photo-word">Memory</span>
-      </p>
-    </div>
-
     <div class="photo-grid">
 
-      <div class="photo-card" onclick="openPhotoModal('proposals')">
+      <div class="photo-card" onclick="openPhotoModal('nightlife')">
         <div class="photo-card-img">
-          <!-- Replace with: <img src="images/proposals-cover.jpg" alt="Proposal photography"> -->
-          <i class="ti ti-ring photo-card-placeholder" aria-hidden="true"></i>
+          <img src="images/covers/nightlife.svg" alt="Nightlife photography sample">
         </div>
-        <div class="photo-card-label">Proposals</div>
+        <div class="photo-card-label">Nightlife</div>
       </div>
 
       <div class="photo-card" onclick="openPhotoModal('corporate')">
         <div class="photo-card-img">
-          <i class="ti ti-building-skyscraper photo-card-placeholder" aria-hidden="true"></i>
+          <img src="images/covers/corporate.svg" alt="Corporate event photography sample">
         </div>
         <div class="photo-card-label">Corporate Events</div>
       </div>
 
       <div class="photo-card" onclick="openPhotoModal('parties')">
         <div class="photo-card-img">
-          <i class="ti ti-confetti photo-card-placeholder" aria-hidden="true"></i>
+          <img src="images/covers/parties.svg" alt="Private party photography sample">
         </div>
         <div class="photo-card-label">Private Parties</div>
       </div>
 
       <div class="photo-card" onclick="openPhotoModal('portraits')">
         <div class="photo-card-img">
-          <i class="ti ti-user-circle photo-card-placeholder" aria-hidden="true"></i>
+          <img src="images/covers/portraits.svg" alt="Portrait photography sample">
         </div>
         <div class="photo-card-label">Portraits</div>
       </div>
 
-      <div class="photo-card" onclick="openPhotoModal('nightlife')">
+      <div class="photo-card" onclick="openPhotoModal('proposals')">
         <div class="photo-card-img">
-          <i class="ti ti-music photo-card-placeholder" aria-hidden="true"></i>
+          <img src="images/covers/proposals.svg" alt="Proposal photography sample">
         </div>
-        <div class="photo-card-label">Nightlife</div>
+        <div class="photo-card-label">Proposals</div>
       </div>
 
       <div class="photo-card" onclick="openPhotoModal('sports')">
         <div class="photo-card-img">
-          <i class="ti ti-trophy photo-card-placeholder" aria-hidden="true"></i>
+          <img src="images/covers/sports.svg" alt="Sports photography sample">
         </div>
         <div class="photo-card-label">Sports</div>
       </div>
@@ -169,15 +136,6 @@
 
   <!-- ====== VIDEO SECTION ====== -->
   <section id="section-video" class="section" aria-label="Videography services">
-    <div class="section-hero">
-      <p class="section-eyebrow">Videography</p>
-      <h2 class="section-title">Script writing, production &amp; media training</h2>
-      <p class="section-tagline">
-        Designed for your
-        <span class="rotate-word" id="video-word">client</span>
-      </p>
-    </div>
-
     <div class="video-grid">
 
       <div class="video-card" onclick="openVideoModal('Political Messaging', '')">
@@ -222,6 +180,21 @@
     <div class="pricing-bar">
       <strong>Pricing by project</strong> — starting at $200<br>
       Discounted rates for new artists &amp; non-profit organizations
+    </div>
+
+    <div class="cta-center">
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+    </div>
+  </section>
+
+
+  <!-- ====== MEDIA TRAINING SECTION ====== -->
+  <section id="section-mediatraining" class="section" aria-label="Media training services">
+    <div class="section-hero">
+      <p class="section-eyebrow">Media Training</p>
+      <h2 class="section-title">Prepare to be seen and heard</h2>
+      <!-- Placeholder copy — replace with details about your media training offering -->
+      <p class="section-tagline">On-camera coaching, interview prep, and presentation skills for individuals and teams.</p>
     </div>
 
     <div class="cta-center">

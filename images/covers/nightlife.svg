@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Nightlife photography sample">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <radialGradient id="beam1" cx="30%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#E8AE4C" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#E8AE4C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="beam2" cx="75%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#1a6fd4" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#1a6fd4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#beam1)"/>
+  <rect width="800" height="600" fill="url(#beam2)"/>
+  <g fill="#ede8df">
+    <ellipse cx="330" cy="360" rx="22" ry="16" transform="rotate(-20 330 360)"/>
+    <rect x="348" y="230" width="8" height="140" transform="rotate(-20 330 360)"/>
+    <ellipse cx="480" cy="330" rx="22" ry="16" transform="rotate(-20 480 330)"/>
+    <rect x="498" y="200" width="8" height="140" transform="rotate(-20 480 330)"/>
+  </g>
+  <g fill="#E8AE4C" opacity="0.9">
+    <circle cx="150" cy="180" r="5"/><circle cx="200" cy="220" r="4"/><circle cx="620" cy="190" r="5"/>
+    <circle cx="670" cy="240" r="4"/><circle cx="380" cy="130" r="4"/>
+  </g>
+  <text x="60" y="540" font-family="Georgia, serif" font-size="42" fill="#ede8df">Nightlife</text>
+  <text x="60" y="570" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#7a8fa8">SAMPLE PLACEHOLDER</text>
+</svg>

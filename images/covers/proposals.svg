@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Proposal photography sample">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="100%" stop-color="#0d0d0d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
+      <stop offset="0%" stop-color="#E8AE4C" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#E8AE4C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#glow)"/>
+  <circle cx="400" cy="250" r="90" fill="none" stroke="#E8AE4C" stroke-width="14"/>
+  <path d="M400 160 L372 205 L428 205 Z" fill="#f2c96e"/>
+  <circle cx="400" cy="175" r="10" fill="#fff8e6"/>
+  <g stroke="#0055B7" stroke-width="2" opacity="0.5">
+    <line x1="120" y1="500" x2="680" y2="500"/>
+    <line x1="160" y1="470" x2="640" y2="470"/>
+  </g>
+  <text x="60" y="540" font-family="Georgia, serif" font-size="42" fill="#ede8df">Proposals</text>
+  <text x="60" y="570" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#7a8fa8">SAMPLE PLACEHOLDER</text>
+</svg>
