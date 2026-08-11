@@ -17,10 +17,10 @@ const BOOKING_LINK = 'https://calendar.google.com/calendar/appointments/schedule
    https://www.youtube.com/embed/VIDEO_ID
    ============================================= */
 const VIDEO_EMBEDS = {
-  'Political Messaging': '',   // e.g. 'https://www.youtube.com/embed/abc123'
-  'Music Productions':   '',
-  'Sporting Events':     '',
-  'Community Events':    '',
+  'Corporate Events': 'images/covers/Corperate Events.mp4',
+  'Music':              '',
+  'Sports':              '',
+  'Interviews':          '',
 };
 
 /* ===== Tab switching ===== */
@@ -78,9 +78,14 @@ function openVideoModal(title, embedUrl) {
   const url = embedUrl || VIDEO_EMBEDS[title] || '';
 
   if (url) {
-    body.innerHTML = '<div class="modal-embed"><iframe src="' + url + '?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe></div>';
+    const isLocalVideo = url.match(/\.(mp4|webm|ogv)$/i);
+    if (isLocalVideo) {
+      body.innerHTML = '<div class="modal-embed"><video controls autoplay playsinline src="' + url + '"></video></div>';
+    } else {
+      body.innerHTML = '<div class="modal-embed"><iframe src="' + url + '?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe></div>';
+    }
   } else {
-    body.innerHTML = '<div class="modal-placeholder"><i class="ti ti-video-off" aria-hidden="true"></i><span>Video coming soon — add a YouTube embed link in script.js</span></div>';
+    body.innerHTML = '<div class="modal-placeholder"><i class="ti ti-video-off" aria-hidden="true"></i><span>Video coming soon — add a YouTube embed link or local MP4 path in script.js</span></div>';
   }
 
   backdrop.classList.add('open');
@@ -98,6 +103,56 @@ function closeVideoModal(event) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeVideoModal();
 });
+
+function initInlineVideoControls() {
+  const videoCards = document.querySelectorAll('.video-card-thumb');
+  if (!videoCards.length) return;
+
+  videoCards.forEach(videoCard => {
+    const videoEl = videoCard.querySelector('video');
+    const button = videoCard.querySelector('.video-play-toggle');
+    if (!videoEl || !button) return;
+
+    function updateButton() {
+      button.textContent = videoEl.paused ? '▶' : '❚❚';
+      button.classList.toggle('paused', videoEl.paused);
+    }
+
+    function setPosterFromFirstFrame() {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoEl.videoWidth;
+      canvas.height = videoEl.videoHeight;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/png');
+      videoEl.setAttribute('poster', dataUrl);
+    }
+
+    videoEl.addEventListener('loadeddata', () => {
+      if (videoEl.readyState >= 2 && !videoEl.getAttribute('poster')) {
+        setPosterFromFirstFrame();
+      }
+    });
+
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      if (videoEl.paused) {
+        videoEl.play();
+      } else {
+        videoEl.pause();
+      }
+    });
+
+    videoEl.addEventListener('play', updateButton);
+    videoEl.addEventListener('pause', updateButton);
+    videoEl.addEventListener('ended', () => {
+      videoEl.currentTime = 0;
+      updateButton();
+    });
+    updateButton();
+  });
+}
 
 /* ===== Photo category modal (placeholder) ===== */
 const nightlifeImages = Array.from({ length: 10 }, (_, index) => `images/covers/Music-${index + 1}.png`);
@@ -223,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showPortraitPhoto();
   showProposalPhoto();
   showSportsPhoto();
+  initInlineVideoControls();
   document.querySelectorAll('[href*="YOUR_SCHEDULE_ID"]').forEach(el => {
     el.href = BOOKING_LINK;
   });
