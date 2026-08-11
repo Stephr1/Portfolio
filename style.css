@@ -160,12 +160,13 @@ nav.main-nav {
 .hero-tagline {
   display: none;
   position: relative;
-  left: 88px;
-  margin-bottom: 20px;
+  left: 0;
+  margin-bottom: 24px;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(20px, 2.6vw, 26px);
+  font-size: clamp(24px, 3.2vw, 32px);
   font-weight: 500;
   letter-spacing: 0.2px;
+  text-align: center;
 }
 .hero-tagline.active {
   display: block;
@@ -221,9 +222,17 @@ nav.main-nav {
 .section {
   display: none;
   padding: 0 0 80px;
+  opacity: 1;
+  filter: none;
+  transition: opacity 0.5s ease, filter 0.5s ease;
 }
 .section.active {
   display: block;
+}
+.section.video-loading {
+  opacity: 0;
+  filter: blur(14px);
+  pointer-events: none;
 }
 
 .section-hero {
@@ -261,34 +270,75 @@ nav.main-nav {
 .rotate-word-wrap {
   position: relative;
   display: inline-grid;
+  align-items: center;
   overflow: hidden;
-  width: clamp(200px, 34vw, 260px);
+  margin-top: 0.35em;
+  width: clamp(300px, 50vw, 600px);
+  min-width: 220px;
 }
 .rotate-word {
   grid-row: 1;
   grid-column: 1;
-  justify-self: start;
+  justify-self: center;
   width: max-content;
   white-space: nowrap;
-  text-align: left;
+  text-align: center;
   color: var(--gold);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.35em;
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 5px;
   transform: translateX(0);
   filter: blur(0px);
-  transition: transform 0.35s ease, filter 0.35s ease;
-}
-.rotate-word.rw-exit {
-  transform: translateX(-100%);
-  filter: blur(3px);
+  transition: none;
 }
 .rotate-word.rw-enter-start {
-  transform: translateX(100%);
+  transform: translateX(180%);
   filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+}
+.rotate-word.rw-exit {
+  animation: slide-out 0.45s ease forwards;
+  z-index: 2;
+}
+.rotate-word.rw-enter {
+  animation: slide-in 0.45s ease 0.45s forwards;
+  visibility: visible;
 }
 .rotate-word.rw-no-transition {
   transition: none;
+}
+@keyframes slide-in {
+  0% {
+    transform: translateX(180%);
+    filter: blur(3px);
+    opacity: 0;
+    visibility: visible;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    filter: blur(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes slide-out {
+  0% {
+    transform: translateX(0);
+    filter: blur(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(-180%);
+    filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 /* ===== PHOTO GRID ===== */

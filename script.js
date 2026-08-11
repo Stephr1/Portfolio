@@ -24,21 +24,81 @@ const VIDEO_EMBEDS = {
 };
 
 /* ===== Tab switching ===== */
-function switchTab(id, triggerEl) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('section-' + id).classList.add('active');
+function preloadSectionVideos(sectionEl, timeout = 700) {
+  const videos = sectionEl.querySelectorAll('video');
+  if (!videos.length) return Promise.resolve();
 
-  document.querySelectorAll('.hero-tagline').forEach(t => t.classList.remove('active'));
-  const tagline = document.querySelector('.hero-tagline[data-tagline="' + id + '"]');
-  if (tagline) tagline.classList.add('active');
+  const preloadPromises = Array.from(videos).map(video => new Promise(resolve => {
+    if (video.readyState >= 3) return resolve();
 
-  document.querySelectorAll('.nav-link, .tab-btn').forEach(b => {
-    if (b.tagName === 'BUTTON') b.classList.remove('active');
+    const done = () => {
+      cleanup();
+      resolve();
+    };
+    const cleanup = () => {
+      video.removeEventListener('canplaythrough', done);
+      video.removeEventListener('loadeddata', done);
+      video.removeEventListener('error', done);
+    };
+
+    video.addEventListener('canplaythrough', done);
+    video.addEventListener('loadeddata', done);
+    video.addEventListener('error', done);
+    if (video.readyState === 0) video.load();
+  }));
+
+  return Promise.race([
+    Promise.all(preloadPromises),
+    new Promise(resolve => setTimeout(resolve, timeout))
+  ]).then(() => {});
+}
+
+function resetVideoSection(sectionEl) {
+  if (!sectionEl) return;
+  const videos = sectionEl.querySelectorAll('video');
+  videos.forEach(video => {
+    if (!video.paused) {
+      video.pause();
+    }
+    video.currentTime = 0;
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {});
+    }
   });
-  if (triggerEl) {
-    document.querySelectorAll('[onclick*="switchTab(\'' + id + '\'"]').forEach(el => {
-      el.classList.add('active');
+}
+
+function switchTab(id, triggerEl) {
+  const showSection = () => {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const sectionEl = document.getElementById('section-' + id);
+    if (sectionEl) sectionEl.classList.remove('video-loading');
+    document.getElementById('section-' + id).classList.add('active');
+
+    document.querySelectorAll('.hero-tagline').forEach(t => t.classList.remove('active'));
+    const tagline = document.querySelector('.hero-tagline[data-tagline="' + id + '"]');
+    if (tagline) tagline.classList.add('active');
+
+    document.querySelectorAll('.nav-link, .tab-btn').forEach(b => {
+      if (b.tagName === 'BUTTON') b.classList.remove('active');
     });
+    if (triggerEl) {
+      document.querySelectorAll('[onclick*="switchTab(\'' + id + '\'")').forEach(el => {
+        el.classList.add('active');
+      });
+    }
+  };
+
+  if (id === 'video') {
+    const sectionEl = document.getElementById('section-' + id);
+    if (sectionEl) sectionEl.classList.add('video-loading');
+    resetVideoSection(sectionEl);
+    showSection();
+    preloadSectionVideos(sectionEl).then(() => {
+      if (sectionEl) sectionEl.classList.remove('video-loading');
+    });
+  } else {
+    showSection();
   }
 }
 
@@ -62,8 +122,12 @@ function cycleWord(wrapKey, words, idx) {
 
   incoming.classList.remove('rw-no-transition', 'rw-enter-start');
   current.classList.add('rw-exit');
+  // delay starting incoming until outgoing has pushed left
+  setTimeout(() => {
+    incoming.classList.add('rw-enter');
+  }, 450);
 
-  setTimeout(() => { current.remove(); }, 350);
+  setTimeout(() => { current.remove(); }, 950);
   return nextIdx;
 }
 
@@ -146,10 +210,6 @@ function initInlineVideoControls() {
 
     videoEl.addEventListener('play', updateButton);
     videoEl.addEventListener('pause', updateButton);
-    videoEl.addEventListener('ended', () => {
-      videoEl.currentTime = 0;
-      updateButton();
-    });
     updateButton();
   });
 }
