@@ -111,7 +111,7 @@ nav.main-nav {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 32px 24px 64px;
+  padding: 12px 24px 64px; /* reduced top padding to move content up */
 }
 
 #hero-video {
@@ -139,7 +139,31 @@ nav.main-nav {
   position: relative;
   z-index: 2;
   text-align: center;
-  max-width: 700px;
+  max-width: 880px; /* wider to fit hero tabs without clipping */
+}
+
+/* Top-left logo inside hero */
+.site-logo {
+  position: fixed; /* pin to viewport left edge */
+  left: 0;
+  top: 0; /* exact top set via script for alignment */
+  height: 112px; /* 15% smaller than previous 132px */
+  width: auto;
+  z-index: 9999;
+  object-fit: contain;
+}
+
+/* Ensure hero tabs have room on the left for the enlarged logo */
+.hero-tabs {
+  padding-left: 180px; /* accommodates large logo */
+}
+
+@media (max-width: 900px) {
+  .site-logo { height: 82px; }
+}
+
+@media (max-width: 520px) {
+  .site-logo { height: 61px; }
 }
 .hero-eyebrow {
   font-size: 11px;
@@ -161,10 +185,12 @@ nav.main-nav {
   display: none;
   position: relative;
   left: 0;
+  margin-top: 5mm;
   margin-bottom: 24px;
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(24px, 3.2vw, 32px);
   font-weight: 500;
+  font-style: italic;
   letter-spacing: 0.2px;
   text-align: center;
 }
@@ -175,9 +201,65 @@ nav.main-nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 16px;
+  flex-wrap: nowrap; /* keep all tabs on one line */
+  overflow-x: auto; /* allow horizontal scroll on narrow viewports */
+  -webkit-overflow-scrolling: touch;
   margin-top: 18px;
+  margin-bottom: 8mm; /* slightly smaller gap below tabs before the tagline */
+  padding: 0 18px; /* ensure first/last buttons have breathing room */
+}
+
+/* Modern larger tab buttons used in hero */
+.tab-btn {
+  background: rgba(255,255,255,0.03);
+  color: var(--cream);
+  border: 1px solid transparent;
+  font-size: clamp(14px, 1.6vw, 16px);
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 180ms ease, transform 120ms ease, box-shadow 180ms ease, color 180ms ease;
+  box-shadow: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+.tab-btn i {
+  font-size: 18px;
+  opacity: 0.95;
+  display: inline-block;
+  transform: translateY(0);
+}
+.tab-btn:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-3px);
+}
+.tab-btn:focus {
+  outline: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35), 0 0 0 4px rgba(232,174,76,0.06);
+}
+.tab-btn.active {
+  color: var(--gold);
+  background: transparent;
+  border: 1.5px solid rgba(232,174,76,0.35);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  transform: translateY(0);
+  padding: 12px 24px;
+  border-radius: 12px;
+}
+
+/* Slightly stronger contrast when tab is active and also focused */
+.tab-btn.active:focus {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35), 0 0 0 6px rgba(232,174,76,0.06);
+}
+
+/* Slightly larger tab label on small viewports */
+@media (max-width: 520px) {
+  .tab-btn { padding: 10px 14px; gap: 8px; font-size: 14px; }
 }
 .btn-primary {
   background: var(--gold);
@@ -267,6 +349,90 @@ nav.main-nav {
   margin: 0 auto;
   line-height: 1.8;
 }
+/* Reels grid */
+.reels-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  max-width: 1200px;
+  margin: 20px auto 24px;
+  padding: 0 24px;
+}
+
+@media (max-width: 900px) {
+  .reels-grid { grid-template-columns: repeat(2, 1fr); max-width: 880px; }
+}
+
+@media (max-width: 520px) {
+  .reels-grid { grid-template-columns: 1fr; gap: 14px; padding: 0 16px; }
+}
+.reel-link {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  color: var(--cream);
+  text-decoration: none;
+}
+.reel-thumb {
+  aspect-ratio: 9 / 16;
+  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  color: rgba(255,255,255,0.9);
+  overflow: hidden;
+}
+.reel-thumb { position: relative; overflow: hidden; }
+.reel-thumb iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  object-fit: cover;
+}
+.reel-thumb.locked iframe { pointer-events: none; touch-action: none; }
+
+.reel-play-overlay {
+  position: absolute;
+  inset: 0; /* fill */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.25));
+  color: #fff;
+  font-size: 34px;
+  border: 0;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+.reel-play-overlay:hover { background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35)); }
+.reel-embedded { cursor: default; }
+
+.reel-link a { display: block; color: inherit; text-decoration: none; }
+.reel-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 13px;
+  border-radius: 8px;
+}
+.reel-desc { font-weight: 600; }
+.reel-views { opacity: 0.9; font-size: 12px; }
+.reel-label {
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--muted);
+}
+.reel-link:hover { border-color: rgba(232,174,76,0.25); transform: translateY(-4px); }
 .rotate-word-wrap {
   position: relative;
   display: inline-grid;
@@ -291,19 +457,20 @@ nav.main-nav {
   transform: translateX(0);
   filter: blur(0px);
   transition: none;
+  font-style: normal; /* ensure rotated words are not italic */
 }
 .rotate-word.rw-enter-start {
-  transform: translateX(180%);
-  filter: blur(3px);
   opacity: 0;
+  transform: translateX(36px) scale(0.995); /* start further right */
+  filter: blur(2px);
   visibility: hidden;
 }
 .rotate-word.rw-exit {
-  animation: slide-out 0.45s ease forwards;
+  animation: slide-out 0.7s cubic-bezier(.2,.9,.2,1) forwards; /* exit to left */
   z-index: 2;
 }
 .rotate-word.rw-enter {
-  animation: slide-in 0.45s ease 0.45s forwards;
+  animation: slide-in 0.7s cubic-bezier(.2,.9,.2,1) forwards; /* enter from right */
   visibility: visible;
 }
 .rotate-word.rw-no-transition {
@@ -311,32 +478,29 @@ nav.main-nav {
 }
 @keyframes slide-in {
   0% {
-    transform: translateX(180%);
-    filter: blur(3px);
     opacity: 0;
+    transform: translateX(36px) scale(0.995);
+    filter: blur(2px);
     visibility: visible;
   }
-  10% {
-    opacity: 1;
-  }
   100% {
-    transform: translateX(0);
-    filter: blur(0);
     opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
     visibility: visible;
   }
 }
 @keyframes slide-out {
   0% {
-    transform: translateX(0);
-    filter: blur(0);
     opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
     visibility: visible;
   }
   100% {
-    transform: translateX(-180%);
-    filter: blur(3px);
     opacity: 0;
+    transform: translateX(-36px) scale(0.995);
+    filter: blur(2px);
     visibility: hidden;
   }
 }

@@ -79,12 +79,18 @@ function switchTab(id, triggerEl) {
     const tagline = document.querySelector('.hero-tagline[data-tagline="' + id + '"]');
     if (tagline) tagline.classList.add('active');
 
-    document.querySelectorAll('.nav-link, .tab-btn').forEach(b => {
-      if (b.tagName === 'BUTTON') b.classList.remove('active');
-    });
-    if (triggerEl) {
-      document.querySelectorAll('[onclick*="switchTab(\'' + id + '\'")').forEach(el => {
-        el.classList.add('active');
+    // clear active state from nav links and tab buttons
+    document.querySelectorAll('.nav-link, .tab-btn').forEach(el => el.classList.remove('active'));
+    // prefer to mark the actual clicked element active
+    if (triggerEl && triggerEl.classList && triggerEl.classList.contains('tab-btn')) {
+      triggerEl.classList.add('active');
+    } else {
+      // fallback: find any element with an onclick that calls switchTab with this id
+      document.querySelectorAll('[onclick]').forEach(el => {
+        const on = el.getAttribute('onclick') || '';
+        if (on.indexOf("switchTab('" + id + "'") !== -1) {
+          el.classList.add('active');
+        }
       });
     }
   };
@@ -105,34 +111,49 @@ function switchTab(id, triggerEl) {
 /* ===== Hero rotating words ===== */
 const photoWords = ['Memories', 'Atmosphere', 'Product', 'Attractive Side', 'Talent'];
 const videoWords = ['Clients', 'Audience', 'Voters', 'Target Demographic'];
+const reelsWords = ['Funny', 'Informative', 'Exciting', 'Nostalgic'];
 
-let photoIdx = 0, videoIdx = 0;
+let photoIdx = 0, videoIdx = 0, reelsIdx = 0;
 
 function cycleWord(wrapKey, words, idx) {
   const wrap = document.querySelector('.rotate-word-wrap[data-rotate="' + wrapKey + '"]');
   const current = wrap && wrap.querySelector('.rotate-word');
   if (!wrap || !current) return idx;
   const nextIdx = (idx + 1) % words.length;
-
   const incoming = document.createElement('span');
   incoming.className = 'rotate-word rw-no-transition rw-enter-start';
   incoming.textContent = words[nextIdx];
   wrap.appendChild(incoming);
   void incoming.offsetWidth; // force reflow so the off-screen starting position applies first
 
-  incoming.classList.remove('rw-no-transition', 'rw-enter-start');
+  // Keep the incoming hidden (rw-enter-start) until the outgoing has animated out.
+  incoming.classList.remove('rw-no-transition');
+  // ensure any enter animation class is removed so exit animation runs consistently
+  current.classList.remove('rw-enter');
   current.classList.add('rw-exit');
-  // delay starting incoming until outgoing has pushed left
+  // start the incoming animation after the exit duration
+  const exitMs = 700; // matches slide animation length in CSS
   setTimeout(() => {
+    incoming.classList.remove('rw-enter-start');
     incoming.classList.add('rw-enter');
-  }, 450);
+  }, exitMs);
 
-  setTimeout(() => { current.remove(); }, 950);
+  // remove the old element right after the fade completes
+  setTimeout(() => { current.remove(); }, exitMs + 20);
   return nextIdx;
 }
 
-setInterval(() => { photoIdx = cycleWord('photo-word', photoWords, photoIdx); }, 2800);
-setInterval(() => { videoIdx = cycleWord('video-word', videoWords, videoIdx); }, 2600);
+setInterval(() => { photoIdx = cycleWord('photo-word', photoWords, photoIdx); }, 3200);
+setInterval(() => { videoIdx = cycleWord('video-word', videoWords, videoIdx); }, 3000);
+setInterval(() => { reelsIdx = cycleWord('reels-word', reelsWords, reelsIdx); }, 3000);
+
+// Ensure initial words animate the same as incoming words
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.rotate-word-wrap .rotate-word').forEach(el => {
+    // add the enter class so the starting word uses the same animation baseline
+    if (!el.classList.contains('rw-enter')) el.classList.add('rw-enter');
+  });
+});
 
 /* ===== Video modal ===== */
 function openVideoModal(title, embedUrl) {
@@ -143,8 +164,15 @@ function openVideoModal(title, embedUrl) {
 
   if (url) {
     const isLocalVideo = url.match(/\.(mp4|webm|ogv)$/i);
+    const isInstagram = url.match(/instagram\.com\/(p|reel)\/([^\/\?#]+)/i);
     if (isLocalVideo) {
       body.innerHTML = '<div class="modal-embed"><video controls autoplay playsinline src="' + url + '"></video></div>';
+    } else if (isInstagram) {
+      // Use Instagram's embed URL for the post/reel
+      const postType = isInstagram[1];
+      const shortcode = isInstagram[2];
+      const iframeSrc = 'https://www.instagram.com/' + postType + '/' + shortcode + '/embed/';
+      body.innerHTML = '<div class="modal-embed"><iframe src="' + iframeSrc + '" allow="autoplay; encrypted-media; fullscreen" allowfullscreen frameborder="0"></iframe></div>';
     } else {
       body.innerHTML = '<div class="modal-embed"><iframe src="' + url + '?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe></div>';
     }
@@ -343,6 +371,51 @@ document.addEventListener('DOMContentLoaded', () => {
     el.href = BOOKING_LINK;
   });
 });
+// --- Reel activation: enable iframe interaction on user activation ---
+// Removed activation overlay: iframes are interactive by default.
+// Ensure Instagram embeds are processed so they render correctly
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    if (window.instgrm && instgrm.Embeds && typeof instgrm.Embeds.process === 'function') {
+      instgrm.Embeds.process();
+    }
+  } catch (e) {
+    // ignore
+  }
+});
+
+/* ===== Align site logo to left edge and vertically with hero tabs ===== */
+function alignLogo() {
+  const logo = document.querySelector('.site-logo');
+  const tabs = document.querySelector('.hero-tabs');
+  if (!logo || !tabs) return;
+
+  // make the logo fixed to the viewport left edge
+  logo.style.position = 'fixed';
+  logo.style.left = '0px';
+  logo.style.zIndex = 9999;
+
+  // align vertically to the first tab button (usually Videography)
+  const refBtn = document.querySelector('.hero-tabs .tab-btn');
+  const btnRect = refBtn ? refBtn.getBoundingClientRect() : null;
+  const logoH = logo.offsetHeight;
+  if (btnRect) {
+    const top = Math.round(btnRect.top + (btnRect.height / 2) - (logoH / 2));
+    logo.style.top = top + 'px';
+  }
+
+  // ensure tabs have enough left padding so they don't overlap the fixed logo
+  const gap = 24;
+  const required = logo.offsetWidth + gap;
+  // use half the logo width as padding so the buttons appear visually centered
+  const half = Math.max(24, Math.round(required / 2));
+  tabs.style.paddingLeft = half + 'px';
+}
+
+window.addEventListener('resize', () => { requestAnimationFrame(alignLogo); });
+window.addEventListener('orientationchange', () => { requestAnimationFrame(alignLogo); });
+document.addEventListener('DOMContentLoaded', () => { requestAnimationFrame(alignLogo); });
+
 
 /* ===== Header transparency on scroll ===== */
 const header = document.getElementById('site-header');
