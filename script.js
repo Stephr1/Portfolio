@@ -24,55 +24,106 @@ const VIDEO_EMBEDS = {
 };
 
 /* ===== Tab switching ===== */
-function preloadSectionVideos(sectionEl, timeout = 700) {
-  const videos = sectionEl.querySelectorAll('video');
-  if (!videos.length) return Promise.resolve();
+const VIDEO_LOADING_SCREEN_MIN_MS = 500;
+const VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS = 1350;
+const VIDEO_LOADING_SCREEN_SAFETY_MS = 2000;
+const REELS_LOADING_SCREEN_MIN_MS = 1350;
+const REELS_LOADING_SCREEN_SAFETY_MS = 3000;
+let reelsIntroShown = false;
 
-  const preloadPromises = Array.from(videos).map(video => new Promise(resolve => {
-    if (video.readyState >= 3) return resolve();
+// Instagram embeds are cross-origin iframes, so 'load' (fired once, even
+// cross-origin) is the only readiness signal available — there's no
+// equivalent of a video 'playing' event to hook into.
+function runReelsLoadingScreen(sectionEl) {
+  if (!sectionEl) return;
+  sectionEl.classList.add('reels-loading');
 
+  const iframes = Array.from(sectionEl.querySelectorAll('iframe'));
+  const loadPromises = iframes.map(iframe => new Promise(resolve => {
     const done = () => {
-      cleanup();
+      iframe.removeEventListener('load', done);
+      iframe.removeEventListener('error', done);
       resolve();
     };
-    const cleanup = () => {
-      video.removeEventListener('canplaythrough', done);
-      video.removeEventListener('loadeddata', done);
-      video.removeEventListener('error', done);
-    };
-
-    video.addEventListener('canplaythrough', done);
-    video.addEventListener('loadeddata', done);
-    video.addEventListener('error', done);
-    if (video.readyState === 0) video.load();
+    iframe.addEventListener('load', done);
+    iframe.addEventListener('error', done);
   }));
+  // Instagram embeds are network-dependent and can be slow (or blocked); don't hold the curtain forever.
+  const iframesReady = Promise.race([
+    Promise.all(loadPromises),
+    new Promise(resolve => setTimeout(resolve, REELS_LOADING_SCREEN_SAFETY_MS))
+  ]);
+  const minDuration = new Promise(resolve => setTimeout(resolve, REELS_LOADING_SCREEN_MIN_MS));
 
-  return Promise.race([
-    Promise.all(preloadPromises),
-    new Promise(resolve => setTimeout(resolve, timeout))
-  ]).then(() => {});
+  Promise.all([iframesReady, minDuration]).then(() => {
+    sectionEl.classList.remove('reels-loading');
+  });
 }
 
-function resetVideoSection(sectionEl) {
+// Resolves once `video` is actually rendering frames again. `alreadyOk` lets the
+// initial page-load path treat a video that's already playing as done immediately —
+// but a restart path must NOT use that shortcut, because calling play() flips
+// video.paused to false synchronously, before real playback resumes, which would
+// make this resolve instantly and defeat the wait.
+function waitForVideoPlaying(video, { alreadyOk = false } = {}) {
+  return new Promise(resolve => {
+    if (alreadyOk && !video.paused && video.readyState >= 3) return resolve();
+    const done = () => {
+      video.removeEventListener('playing', done);
+      video.removeEventListener('error', done);
+      resolve();
+    };
+    video.addEventListener('playing', done);
+    video.addEventListener('error', done);
+  });
+}
+
+function runVideoLoadingScreen(sectionEl, videoReadyPromises, minDurationMs = VIDEO_LOADING_SCREEN_MIN_MS) {
   if (!sectionEl) return;
-  const videos = sectionEl.querySelectorAll('video');
-  videos.forEach(video => {
-    if (!video.paused) {
-      video.pause();
-    }
-    video.currentTime = 0;
+  // Videos keep playing underneath — this just covers them with an
+  // opaque layer briefly so playback doesn't flash in before it settles.
+  sectionEl.classList.add('videos-loading');
+
+  // Wait for actual playback to resume, but don't let a stalled video hold the curtain forever.
+  const videosReady = Promise.race([
+    Promise.all(videoReadyPromises),
+    new Promise(resolve => setTimeout(resolve, VIDEO_LOADING_SCREEN_SAFETY_MS))
+  ]);
+  const minDuration = new Promise(resolve => setTimeout(resolve, minDurationMs));
+
+  Promise.all([videosReady, minDuration]).then(() => {
+    sectionEl.classList.remove('videos-loading');
+  });
+}
+
+// Pauses every video in place (keeps currentTime) instead of tearing it down,
+// so there's nothing to re-buffer or re-decode when the tab is revisited.
+function pauseVideoSection(sectionEl) {
+  if (!sectionEl) return;
+  sectionEl.querySelectorAll('video').forEach(video => {
+    if (!video.paused) video.pause();
+  });
+}
+
+// Resumes every video from wherever it was paused and returns a ready-promise
+// per video. Listeners are attached before play() is triggered so the
+// 'playing' event this resume causes can't be missed.
+function resumeVideoSection(sectionEl) {
+  if (!sectionEl) return [];
+  const videos = Array.from(sectionEl.querySelectorAll('video'));
+  return videos.map(video => {
+    const ready = waitForVideoPlaying(video);
     const playPromise = video.play();
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {});
     }
+    return ready;
   });
 }
 
 function switchTab(id, triggerEl) {
   const showSection = () => {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const sectionEl = document.getElementById('section-' + id);
-    if (sectionEl) sectionEl.classList.remove('video-loading');
     document.getElementById('section-' + id).classList.add('active');
 
     document.querySelectorAll('.hero-tagline').forEach(t => t.classList.remove('active'));
@@ -95,22 +146,60 @@ function switchTab(id, triggerEl) {
     }
   };
 
+  const videoSection = document.getElementById('section-video');
+  const isLeavingVideoTab = id !== 'video' && videoSection && videoSection.classList.contains('active');
+  if (isLeavingVideoTab) {
+    pauseVideoSection(videoSection);
+  }
+
   if (id === 'video') {
-    const sectionEl = document.getElementById('section-' + id);
-    if (sectionEl) sectionEl.classList.add('video-loading');
-    resetVideoSection(sectionEl);
+    const sectionEl = videoSection;
+    const alreadyOnVideoTab = sectionEl && sectionEl.classList.contains('active');
+    if (alreadyOnVideoTab) {
+      showSection();
+      return;
+    }
+    // Cover with the curtain and reveal the section (still hidden behind it) BEFORE
+    // touching playback — resuming a video while its container is display:none
+    // decodes on a timeline disconnected from actual paint, causing staggered pop-in
+    // once the section becomes visible.
+    if (sectionEl) sectionEl.classList.add('videos-loading');
     showSection();
-    preloadSectionVideos(sectionEl).then(() => {
-      if (sectionEl) sectionEl.classList.remove('video-loading');
-    });
+    const readyPromises = resumeVideoSection(sectionEl);
+    runVideoLoadingScreen(sectionEl, readyPromises, VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS);
+  } else if (id === 'reels' && !reelsIntroShown) {
+    reelsIntroShown = true;
+    const sectionEl = document.getElementById('section-reels');
+    if (sectionEl) sectionEl.classList.add('reels-loading');
+    showSection();
+    runReelsLoadingScreen(sectionEl);
   } else {
     showSection();
   }
 }
 
+// The video tab is active by default on page load, so run the same
+// loading screen there rather than only on subsequent tab switches.
+document.addEventListener('DOMContentLoaded', () => {
+  const initialVideoSection = document.getElementById('section-video');
+  if (initialVideoSection && initialVideoSection.classList.contains('active')) {
+    const videos = Array.from(initialVideoSection.querySelectorAll('video'));
+    const readyPromises = videos.map(video => waitForVideoPlaying(video, { alreadyOk: true }));
+    runVideoLoadingScreen(initialVideoSection, readyPromises);
+  }
+});
+
+/* ===== Media training skill tabs ===== */
+function selectMediaSkill(triggerEl) {
+  document.querySelectorAll('.mediatraining-skill-tab').forEach(el => el.classList.remove('active'));
+  triggerEl.classList.add('active');
+  const panel = document.getElementById('mediatraining-skill-panel');
+  if (panel) panel.textContent = triggerEl.dataset.desc;
+}
+
 /* ===== Hero rotating words ===== */
 const photoWords = ['Memories', 'Atmosphere', 'Product', 'Attractive Side', 'Talent'];
-const videoWords = ['Clients', 'Audience', 'Voters', 'Target Demographic'];
+const videoWords = ['Customers', 'Audience', 'Voters', 'Target Demographic'];
 const reelsWords = ['Funny', 'Informative', 'Exciting', 'Nostalgic'];
 
 let photoIdx = 0, videoIdx = 0, reelsIdx = 0;
