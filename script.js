@@ -197,6 +197,13 @@ function selectMediaSkill(triggerEl) {
   if (panel) panel.textContent = triggerEl.dataset.desc;
 }
 
+function selectCameraSkill(triggerEl) {
+  document.querySelectorAll('.cameralessons-skill-tab').forEach(el => el.classList.remove('active'));
+  triggerEl.classList.add('active');
+  const panel = document.getElementById('cameralessons-skill-panel');
+  if (panel) panel.textContent = triggerEl.dataset.desc;
+}
+
 /* ===== Hero rotating words ===== */
 const photoWords = ['Memories', 'Atmosphere', 'Product', 'Attractive Side', 'Talent'];
 const videoWords = ['Customers', 'Audience', 'Voters', 'Target Demographic'];
@@ -448,6 +455,27 @@ function changeSportsPhoto(direction) {
   showSportsPhoto();
 }
 
+const animalImages = Array.from({ length: 4 }, (_, index) => `images/covers/animal-${index + 1}.png`);
+const animalCaptions = Array.from({ length: 4 }, () => '');
+let currentAnimalIndex = 0;
+
+function showAnimalPhoto() {
+  const img = document.getElementById('animal-carousel-img');
+  const caption = document.getElementById('animal-caption');
+  if (!img) return;
+  img.src = animalImages[currentAnimalIndex];
+  img.alt = `Animal photo ${currentAnimalIndex + 1}`;
+  if (caption) {
+    caption.textContent = animalCaptions[currentAnimalIndex] || '';
+    caption.style.display = animalCaptions[currentAnimalIndex] ? 'block' : 'none';
+  }
+}
+
+function changeAnimalPhoto(direction) {
+  currentAnimalIndex = (currentAnimalIndex + direction + animalImages.length) % animalImages.length;
+  showAnimalPhoto();
+}
+
 /* ===== Wire up all booking buttons ===== */
 document.addEventListener('DOMContentLoaded', () => {
   showNightlifePhoto();
@@ -455,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showPortraitPhoto();
   showProposalPhoto();
   showSportsPhoto();
+  showAnimalPhoto();
   initInlineVideoControls();
   document.querySelectorAll('[href*="YOUR_SCHEDULE_ID"]').forEach(el => {
     el.href = BOOKING_LINK;
@@ -473,47 +502,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-/* ===== Align site logo to left edge and vertically with hero tabs ===== */
-function alignLogo() {
-  const logo = document.querySelector('.site-logo');
-  const tabs = document.querySelector('.hero-tabs');
-  if (!logo || !tabs) return;
-
-  // make the logo fixed to the viewport left edge
-  logo.style.position = 'fixed';
-  logo.style.left = '0px';
-  logo.style.zIndex = 9999;
-
-  // align vertically to the first tab button (usually Videography)
-  const refBtn = document.querySelector('.hero-tabs .tab-btn');
-  const btnRect = refBtn ? refBtn.getBoundingClientRect() : null;
-  const logoH = logo.offsetHeight;
-  if (btnRect) {
-    const top = Math.round(btnRect.top + (btnRect.height / 2) - (logoH / 2));
-    logo.style.top = top + 'px';
-  }
-
-  // ensure tabs have enough left padding so they don't overlap the fixed logo
-  const gap = 24;
-  const required = logo.offsetWidth + gap;
-  // use half the logo width as padding so the buttons appear visually centered
-  const half = Math.max(24, Math.round(required / 2));
-  tabs.style.paddingLeft = half + 'px';
-}
-
-window.addEventListener('resize', () => { requestAnimationFrame(alignLogo); });
-window.addEventListener('orientationchange', () => { requestAnimationFrame(alignLogo); });
-document.addEventListener('DOMContentLoaded', () => { requestAnimationFrame(alignLogo); });
-
-
-/* ===== Header transparency on scroll ===== */
-const header = document.getElementById('site-header');
-if (header) {
+/* ===== Header shadow once the page scrolls out from under it ===== */
+const headerBar = document.querySelector('.site-header-bar');
+if (headerBar) {
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 80) {
-      header.style.background = 'rgba(0, 21, 69, 0.97)';
-    } else {
-      header.style.background = 'rgba(0, 21, 69, 0.85)';
-    }
+    headerBar.classList.toggle('scrolled', window.scrollY > 8);
   }, { passive: true });
 }

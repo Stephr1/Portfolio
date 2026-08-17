@@ -14,6 +14,33 @@
 </head>
 <body>
 
+<div class="bg-glow" aria-hidden="true"></div>
+
+<!-- ===== STICKY HEADER — logo + tabs, fixed above everything ===== -->
+<header class="site-header-bar">
+  <img class="site-logo" src="images/covers/Kevdog%20Productions.png" alt="Kevdog Productions logo">
+  <div class="hero-tabs">
+    <button class="tab-btn active" onclick="switchTab('video', this)">
+      <i class="ti ti-video" aria-hidden="true"></i> Videography
+    </button>
+    <button class="tab-btn" onclick="switchTab('reels', this)">
+      <i class="ti ti-player-track-next" aria-hidden="true"></i> Reels
+    </button>
+    <button class="tab-btn" onclick="switchTab('photo', this)">
+      <i class="ti ti-camera" aria-hidden="true"></i> Photography
+    </button>
+    <button class="tab-btn" onclick="switchTab('mediatraining', this)">
+      <i class="ti ti-microphone" aria-hidden="true"></i> Media Training
+    </button>
+    <button class="tab-btn" onclick="switchTab('cameralessons', this)">
+      <i class="ti ti-aperture" aria-hidden="true"></i> Camera Lessons
+    </button>
+    <button class="tab-btn" onclick="switchTab('about', this)">
+      <i class="ti ti-user" aria-hidden="true"></i> About
+    </button>
+  </div>
+</header>
+
 <!-- ===== HERO — full-page video background ===== -->
 <section id="hero" aria-label="Kevdog Productions showreel">
   <!--
@@ -28,24 +55,6 @@
 
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-tabs">
-      <img class="site-logo" src="images/covers/Kevdog%20Productions.png" alt="Kevdog Productions logo">
-      <button class="tab-btn active" onclick="switchTab('video', this)">
-        <i class="ti ti-video" aria-hidden="true"></i> Videography
-      </button>
-      <button class="tab-btn" onclick="switchTab('reels', this)">
-        <i class="ti ti-player-track-next" aria-hidden="true"></i> Reels
-      </button>
-      <button class="tab-btn" onclick="switchTab('photo', this)">
-        <i class="ti ti-camera" aria-hidden="true"></i> Photography
-      </button>
-      <button class="tab-btn" onclick="switchTab('mediatraining', this)">
-        <i class="ti ti-microphone" aria-hidden="true"></i> Media Training
-      </button>
-      <button class="tab-btn" onclick="switchTab('about', this)">
-        <i class="ti ti-user" aria-hidden="true"></i> About
-      </button>
-    </div>
     <p class="section-tagline hero-tagline" data-tagline="photo">
       Capturing emotions that highlight your<br>
       <span class="rotate-word-wrap" data-rotate="photo-word"><span class="rotate-word">Memories</span></span>
@@ -125,11 +134,18 @@
         <div class="photo-card-label">Portraits</div>
       </div>
 
-      <div class="photo-card" onclick="openPhotoModal('proposals')">
+      <div class="photo-card animal-card">
         <div class="photo-card-img">
-          <img src="images/covers/proposals.svg" alt="Proposal photography sample">
+          <button class="photo-carousel-nav prev" onclick="changeAnimalPhoto(-1)" aria-label="Previous photo">
+            <span aria-hidden="true" class="photo-arrow">‹</span>
+          </button>
+          <img id="animal-carousel-img" src="images/covers/animal-1.png" alt="Animal photo 1">
+          <div class="nightlife-caption" id="animal-caption"></div>
+          <button class="photo-carousel-nav next" onclick="changeAnimalPhoto(1)" aria-label="Next photo">
+            <span aria-hidden="true" class="photo-arrow">›</span>
+          </button>
         </div>
-        <div class="photo-card-label">Proposals</div>
+        <div class="photo-card-label">Animals</div>
       </div>
 
       <div class="photo-card sports-card">
@@ -146,11 +162,6 @@
         <div class="photo-card-label">Sports</div>
       </div>
 
-    </div>
-
-    <div class="gallery-link-wrap">
-      <p>Want to see more? Explore the full portfolio.</p>
-      <a href="gallery.html" class="btn-outline">View Full Gallery →</a>
     </div>
 
     <div class="pricing-bar">
@@ -199,7 +210,7 @@
             <iframe src="https://www.instagram.com/reel/DPelh0fAAkq/embed/" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
-          <div class="reel-desc">Homecoming Promo</div>
+          <div class="reel-desc">Underground Rave Recap</div>
           <div class="reel-views">4.3k views</div>
         </div>
       </div>
@@ -239,7 +250,7 @@
             <iframe src="https://www.instagram.com/reel/DV5JyIgkgT9/embed/" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
-          <div class="reel-desc">Promo Clip</div>
+          <div class="reel-desc">Thunderbird Dance Show</div>
           <div class="reel-views">6.2k views</div>
         </div>
       </div>
@@ -330,27 +341,55 @@
     <div class="mediatraining-skills">
       <h3 class="mediatraining-skills-title">Here's what we can do for you:</h3>
       <div class="mediatraining-skills-row">
-        <button type="button" class="mediatraining-skill-tab active" data-desc="Clear message, right words." onclick="selectMediaSkill(this)">
-          <i class="ti ti-pencil" aria-hidden="true"></i> Script Writing
+        <button type="button" class="mediatraining-skill-tab active" data-desc="Whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create a human-made authentic message viewers will respect." onclick="selectMediaSkill(this)">
+          <i class="ti ti-pencil" aria-hidden="true"></i> Script Writing and Editing
         </button>
-        <button type="button" class="mediatraining-skill-tab" data-desc="Stay sharp, stay ready." onclick="selectMediaSkill(this)">
-          <i class="ti ti-microphone-2" aria-hidden="true"></i> Interview Prep
+        <button type="button" class="mediatraining-skill-tab" data-desc="Worried about an upcoming press interview? We'll teach you how media teams write articles, train you with recorded practice questions, and help you develop key messages." onclick="selectMediaSkill(this)">
+          <i class="ti ti-microphone-2" aria-hidden="true"></i> Press Interview Preparation
         </button>
-        <button type="button" class="mediatraining-skill-tab" data-desc="Look the part, every time." onclick="selectMediaSkill(this)">
-          <i class="ti ti-shirt" aria-hidden="true"></i> Wardrobe Advice
-        </button>
-        <button type="button" class="mediatraining-skill-tab" data-desc="Words that land and stick." onclick="selectMediaSkill(this)">
-          <i class="ti ti-message-2" aria-hidden="true"></i> Speech Development
-        </button>
-        <button type="button" class="mediatraining-skill-tab" data-desc="Own the room, naturally." onclick="selectMediaSkill(this)">
-          <i class="ti ti-mood-smile" aria-hidden="true"></i> Confidence Building
+        <button type="button" class="mediatraining-skill-tab" data-desc="Learn how to control a room with your voice, sound more confident, and be engaging in casual conversation or public speaking. We'll give you a practice script, and point out areas of improvement" onclick="selectMediaSkill(this)">
+          <i class="ti ti-message-2" aria-hidden="true"></i> Confidence and Speech Development
         </button>
       </div>
-      <div class="mediatraining-skill-panel" id="mediatraining-skill-panel">Clear message, right words.</div>
+      <div class="mediatraining-skill-panel" id="mediatraining-skill-panel">Whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create an authentic message viewers will respect.</div>
     </div>
 
     <div class="pricing-bar">
       Pricing dependent on project — please contact to discuss details.
+    </div>
+
+    <div class="cta-center">
+      <a href="mailto:kevin@kevdog.productions" class="btn-primary">Contact Kevin</a>
+    </div>
+  </section>
+
+
+  <!-- ====== CAMERA LESSONS SECTION ====== -->
+  <section id="section-cameralessons" class="section" aria-label="Camera lessons">
+    <div class="mediatraining-skills cameralessons-skills">
+      <h3 class="mediatraining-skills-title cameralessons-skills-title">Single sessions by the hour, pick a topic to level up:</h3>
+      <div class="mediatraining-skills-row cameralessons-skills-row">
+        <button type="button" class="mediatraining-skill-tab cameralessons-skill-tab active" data-desc="Learn your camera inside and out — modes, settings, and how to get off Auto for good." onclick="selectCameraSkill(this)">
+          <i class="ti ti-camera" aria-hidden="true"></i> Introduction to Advanced Shooting
+        </button>
+        <button type="button" class="mediatraining-skill-tab cameralessons-skill-tab" data-desc="Take full control with manual mode — aperture, shutter speed, and ISO working together." onclick="selectCameraSkill(this)">
+          <i class="ti ti-aperture" aria-hidden="true"></i> Interacting with People
+        </button>
+        <button type="button" class="mediatraining-skill-tab cameralessons-skill-tab" data-desc="Frame shots that pull the eye where you want it, every time." onclick="selectCameraSkill(this)">
+          <i class="ti ti-crop" aria-hidden="true"></i> Shooting in Low Light
+        </button>
+        <button type="button" class="mediatraining-skill-tab cameralessons-skill-tab" data-desc="Read and shape light, indoors or out, to make every shot look intentional." onclick="selectCameraSkill(this)">
+          <i class="ti ti-bulb" aria-hidden="true"></i> Advanced Filming Techniques
+        </button>
+        <button type="button" class="mediatraining-skill-tab cameralessons-skill-tab" data-desc="Polish your shots afterward with a simple, repeatable editing workflow." onclick="selectCameraSkill(this)">
+          <i class="ti ti-adjustments" aria-hidden="true"></i> Editing
+        </button>
+      </div>
+      <div class="mediatraining-skill-panel cameralessons-skill-panel" id="cameralessons-skill-panel">Learn your camera inside and out — modes, settings, and how to get off Auto for good.</div>
+    </div>
+
+    <div class="pricing-bar">
+      Pricing dependent on session length — please contact to discuss details.
     </div>
 
     <div class="cta-center">

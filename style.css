@@ -17,6 +17,9 @@
   --border-gold: rgba(232, 174, 76, 0.3);
   --radius: 12px;
   --radius-sm: 8px;
+  --purple-glow-bg:
+    radial-gradient(ellipse 90% 60% at 20% 100%, rgba(150, 60, 220, 0.6), transparent 65%),
+    linear-gradient(to bottom, #000000 0%, #000000 15%, #0a0416 30%, #170a2e 45%, #20112f 60%, #2a0f4d 80%, #1c0d38 100%);
 }
 
 html { scroll-behavior: smooth; }
@@ -27,13 +30,54 @@ body {
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+  padding-top: 90px; /* clears the fixed .site-header-bar */
+}
+
+@media (max-width: 900px) {
+  body { padding-top: 78px; }
+}
+@media (max-width: 520px) {
+  body { padding-top: 68px; }
 }
 
 a { color: inherit; text-decoration: none; }
 
+/* ===== AMBIENT BACKGROUND GLOW ===== */
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--purple-glow-bg);
+  animation: bg-glow-breathe 14s ease-in-out infinite;
+}
+@keyframes bg-glow-breathe {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-glow {
+    animation: none;
+  }
+}
+
 /* ===== HEADER ===== */
-#site-header {
-  display: none;
+.site-header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 24px;
+  background: #000;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.site-header-bar.scrolled {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 
 .logo {
@@ -121,6 +165,7 @@ nav.main-nav {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  background: transparent;
 }
 
 .hero-overlay {
@@ -128,9 +173,9 @@ nav.main-nav {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.35) 0%,
-    rgba(0,0,0,0.5) 60%,
-    rgba(0,0,0,0.92) 100%
+    rgba(0,0,0,0.2) 0%,
+    rgba(0,0,0,0.35) 60%,
+    rgba(0,0,0,0.7) 100%
   );
   z-index: 1;
 }
@@ -139,31 +184,22 @@ nav.main-nav {
   position: relative;
   z-index: 2;
   text-align: center;
-  max-width: 880px; /* wider to fit hero tabs without clipping */
+  max-width: 720px;
 }
 
-/* Top-left logo inside hero */
 .site-logo {
-  position: fixed; /* pin to viewport left edge */
-  left: 0;
-  top: 0; /* exact top set via script for alignment */
-  height: 112px; /* 15% smaller than previous 132px */
+  height: 56px;
   width: auto;
-  z-index: 9999;
   object-fit: contain;
-}
-
-/* Ensure hero tabs have room on the left for the enlarged logo */
-.hero-tabs {
-  padding-left: 180px; /* accommodates large logo */
+  flex-shrink: 0;
 }
 
 @media (max-width: 900px) {
-  .site-logo { height: 82px; }
+  .site-logo { height: 44px; }
 }
 
 @media (max-width: 520px) {
-  .site-logo { height: 61px; }
+  .site-logo { height: 36px; }
 }
 .hero-eyebrow {
   font-size: 11px;
@@ -198,6 +234,7 @@ nav.main-nav {
   display: block;
 }
 .hero-tabs {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,16 +242,14 @@ nav.main-nav {
   flex-wrap: nowrap; /* keep all tabs on one line */
   overflow-x: auto; /* allow horizontal scroll on narrow viewports */
   -webkit-overflow-scrolling: touch;
-  margin-top: 18px;
-  margin-bottom: 8mm; /* slightly smaller gap below tabs before the tagline */
-  padding: 0 18px; /* ensure first/last buttons have breathing room */
+  padding: 4px 0;
 }
 
 /* Modern larger tab buttons used in hero */
 .tab-btn {
   background: rgba(255,255,255,0.03);
   color: var(--cream);
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   font-size: clamp(14px, 1.6vw, 16px);
   font-weight: 700;
   padding: 12px 22px;
@@ -248,8 +283,8 @@ nav.main-nav {
   border: 1.5px solid rgba(232,174,76,0.35);
   box-shadow: 0 6px 18px rgba(0,0,0,0.35);
   transform: translateY(0);
-  padding: 12px 24px;
-  border-radius: 12px;
+  padding: 12px 22px;
+  border-radius: 999px;
 }
 
 /* Slightly stronger contrast when tab is active and also focused */
@@ -297,7 +332,6 @@ nav.main-nav {
 /* ===== MAIN CONTENT ===== */
 #main-content {
   padding-top: 0;
-  background: var(--navy);
 }
 
 /* ===== SECTION SHELL ===== */
@@ -347,8 +381,8 @@ nav.main-nav {
 /* ===== MEDIA TRAINING CREDENTIAL QUOTE ===== */
 .mediatraining-credential {
   max-width: 980px;
-  margin: 0 auto 40px;
-  padding: 22px 40px;
+  margin: 0 auto 24px;
+  padding: 14px 40px 0;
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-gold);
   border-left: 3px solid var(--gold);
@@ -359,30 +393,31 @@ nav.main-nav {
   font-size: 18px;
   font-style: italic;
   color: var(--cream);
-  line-height: 1.65;
+  line-height: 1.5;
 }
 .mediatraining-credential-attribution {
-  margin-top: 18px;
+  margin-top: 8px;
   text-align: right;
   font-size: 14px;
   font-style: normal;
+  line-height: 1;
   color: var(--gold);
   transform: translateX(13cm);
 }
-.mediatraining-skills {
+.mediatraining-skills, .cameralessons-skills {
   max-width: 1180px;
   margin: 0 auto 48px;
   padding: 0 24px;
   text-align: center;
 }
-.mediatraining-skills-title {
-  font-size: clamp(26px, 3.5vw, 34px);
+.mediatraining-skills-title, .cameralessons-skills-title {
+  font-size: 20px;
   font-weight: 700;
   color: var(--cream);
   letter-spacing: -0.3px;
   margin-bottom: 12px;
 }
-.mediatraining-skills-title::after {
+.mediatraining-skills-title::after, .cameralessons-skills-title::after {
   content: '';
   display: block;
   width: 56px;
@@ -391,7 +426,7 @@ nav.main-nav {
   background: var(--gold);
   border-radius: 999px;
 }
-.mediatraining-skills-row {
+.mediatraining-skills-row, .cameralessons-skills-row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -402,11 +437,11 @@ nav.main-nav {
   margin-top: 32px;
   padding: 4px 4px 12px;
 }
-.mediatraining-skill-tab {
+.mediatraining-skill-tab, .cameralessons-skill-tab {
   background: rgba(255,255,255,0.03);
   color: var(--cream);
   border: 1px solid transparent;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 700;
   padding: 12px 20px;
   border-radius: 999px;
@@ -419,19 +454,29 @@ nav.main-nav {
   flex: 0 0 auto;
   transition: background 180ms ease, outline-color 180ms ease;
 }
-.mediatraining-skill-tab i {
+.mediatraining-skill-tab i, .cameralessons-skill-tab i {
   font-size: 17px;
   opacity: 0.95;
   color: var(--gold);
 }
-.mediatraining-skill-tab:hover {
+.cameralessons-skill-tab {
+  font-size: 15px;
+  padding: 10px 14px;
+}
+.cameralessons-skill-tab i {
+  font-size: 14px;
+}
+.cameralessons-skills-row {
+  gap: 12px;
+}
+.mediatraining-skill-tab:hover, .cameralessons-skill-tab:hover {
   background: rgba(255,255,255,0.06);
 }
-.mediatraining-skill-tab.active {
+.mediatraining-skill-tab.active, .cameralessons-skill-tab.active {
   color: var(--gold);
   position: relative;
 }
-.mediatraining-skill-tab.active::after {
+.mediatraining-skill-tab.active::after, .cameralessons-skill-tab.active::after {
   content: '';
   position: absolute;
   left: 16px;
@@ -441,17 +486,27 @@ nav.main-nav {
   background: var(--gold);
   border-radius: 999px;
 }
-.mediatraining-skill-panel {
+.mediatraining-skill-panel, .cameralessons-skill-panel {
+  display: flex;
+  align-items: center;
+  gap: 28px;
   max-width: 1180px;
-  margin: 28px auto 0;
+  margin: 14px auto 0;
   background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius-sm);
-  padding: 24px;
+  padding: 24px 32px;
   font-size: 15px;
-  color: var(--muted);
+  color: #ffffff;
   line-height: 1.6;
-  text-align: center;
+  text-align: left;
+}
+.mediatraining-skill-panel::before, .cameralessons-skill-panel::before {
+  content: '→';
+  flex-shrink: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gold);
 }
 /* Reels loading screen */
 .reels-stage {
@@ -466,7 +521,7 @@ nav.main-nav {
   align-items: center;
   justify-content: center;
   gap: 18px;
-  background: var(--navy);
+  background: var(--purple-glow-bg);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -481,13 +536,13 @@ nav.main-nav {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  max-width: 1200px;
-  margin: 20px auto 24px;
+  max-width: 1320px;
+  margin: 0 auto 24px;
   padding: 0 24px;
 }
 
 @media (max-width: 900px) {
-  .reels-grid { grid-template-columns: repeat(2, 1fr); max-width: 880px; }
+  .reels-grid { grid-template-columns: repeat(2, 1fr); max-width: 968px; }
 }
 
 @media (max-width: 520px) {
@@ -748,7 +803,7 @@ nav.main-nav {
   align-items: center;
   justify-content: center;
   gap: 18px;
-  background: var(--navy);
+  background: var(--purple-glow-bg);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
