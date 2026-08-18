@@ -18,9 +18,9 @@ const BOOKING_LINK = 'https://calendar.google.com/calendar/appointments/schedule
    ============================================= */
 const VIDEO_EMBEDS = {
   'Corporate Events': 'images/covers/Corperate Events.mp4',
-  'Music':              '',
-  'Sports':              '',
-  'Interviews':          '',
+  'Music':             'images/covers/Music.mp4',
+  'Sports':            'images/covers/Sports2.mp4',
+  'Interviews':        'images/covers/Interviews.mp4',
 };
 
 /* ===== Tab switching ===== */
