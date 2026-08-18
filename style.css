@@ -19,7 +19,7 @@
   --radius-sm: 8px;
   --purple-glow-bg:
     radial-gradient(ellipse 90% 60% at 20% 100%, rgba(150, 60, 220, 0.6), transparent 65%),
-    linear-gradient(to bottom, #000000 0%, #000000 15%, #0a0416 30%, #170a2e 45%, #20112f 60%, #2a0f4d 80%, #1c0d38 100%);
+    linear-gradient(to bottom, #000000 0%, #030106 8%, #05020a 16%, #070310 24%, #0a0416 32%, #100722 40%, #170a2e 48%, #1c0d38 56%, #20112f 64%, #251152 76%, #2a0f4d 88%, #1c0d38 100%);
 }
 
 html { scroll-behavior: smooth; }
