@@ -500,13 +500,16 @@ nav.main-nav {
   line-height: 1.6;
   text-align: left;
 }
-.mediatraining-skill-panel::before, .cameralessons-skill-panel::before {
+.mediatraining-skill-panel::before {
   content: '→';
   flex-shrink: 0;
   font-size: 32px;
   font-weight: 700;
   line-height: 1;
   color: var(--gold);
+}
+.cameralessons-skill-panel::before {
+  content: none;
 }
 .skill-desc-list {
   list-style: none;
