@@ -933,7 +933,7 @@ nav.main-nav {
 }
 @keyframes wave-letter-bounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.25px); }
+  50% { transform: translateY(-0.7px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .wave-letter { animation: none; }
