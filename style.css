@@ -508,6 +508,23 @@ nav.main-nav {
   line-height: 1;
   color: var(--gold);
 }
+.skill-desc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skill-desc-list li {
+  position: relative;
+  padding-left: 24px;
+}
+.skill-desc-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
 /* Reels grid */
 .reels-grid {
   display: grid;

@@ -175,7 +175,7 @@ function selectCameraSkill(triggerEl) {
   document.querySelectorAll('.cameralessons-skill-tab').forEach(el => el.classList.remove('active'));
   triggerEl.classList.add('active');
   const panel = document.getElementById('cameralessons-skill-panel');
-  if (panel) panel.textContent = triggerEl.dataset.desc;
+  if (panel) panel.innerHTML = triggerEl.dataset.desc;
 }
 
 /* ===== Hero rotating words ===== */
