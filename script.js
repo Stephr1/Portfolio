@@ -497,7 +497,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const span = document.createElement('span');
       span.className = 'wave-letter';
       span.textContent = ch === ' ' ? ' ' : ch;
-      span.style.animationDelay = (i * delayPerLetter) + 's';
+      // Negative delay starts each letter mid-cycle, as if the wave had
+      // already been traveling — so it's mid-motion across the whole
+      // sentence immediately, with no letter-by-letter ramp-in.
+      span.style.animationDelay = (-i * delayPerLetter) + 's';
       el.appendChild(span);
     });
   });
