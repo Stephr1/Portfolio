@@ -37,12 +37,19 @@ let reelsIntroShown = false;
 // load or an unusually fast first switch) still needs the longer curtain.
 let videoSectionEverReady = false;
 
+// Kicked off once, at page load, so the Instagram embeds fetch in the
+// background while the video tab is loading — by the time the user visits
+// the Reels tab the iframes are usually already loaded and the curtain
+// only needs to cover its minimum duration, not the full network fetch.
+let reelsReadyPromise = null;
+
 // Instagram embeds are cross-origin iframes, so 'load' (fired once, even
 // cross-origin) is the only readiness signal available — there's no
 // equivalent of a video 'playing' event to hook into.
-function runReelsLoadingScreen(sectionEl) {
-  if (!sectionEl) return;
-  sectionEl.classList.add('reels-loading');
+function prefetchReels() {
+  if (reelsReadyPromise) return reelsReadyPromise;
+  const sectionEl = document.getElementById('section-reels');
+  if (!sectionEl) return Promise.resolve();
 
   const iframes = Array.from(sectionEl.querySelectorAll('iframe'));
   const loadPromises = iframes.map(iframe => new Promise(resolve => {
@@ -54,11 +61,19 @@ function runReelsLoadingScreen(sectionEl) {
     iframe.addEventListener('load', done);
     iframe.addEventListener('error', done);
   }));
-  // Instagram embeds are network-dependent and can be slow (or blocked); don't hold the curtain forever.
-  const iframesReady = Promise.race([
+  // Instagram embeds are network-dependent and can be slow (or blocked); don't wait forever.
+  reelsReadyPromise = Promise.race([
     Promise.all(loadPromises),
     new Promise(resolve => setTimeout(resolve, REELS_LOADING_SCREEN_SAFETY_MS))
   ]);
+  return reelsReadyPromise;
+}
+
+function runReelsLoadingScreen(sectionEl) {
+  if (!sectionEl) return;
+  sectionEl.classList.add('reels-loading');
+
+  const iframesReady = prefetchReels();
   const minDuration = new Promise(resolve => setTimeout(resolve, REELS_LOADING_SCREEN_MIN_MS));
 
   Promise.all([iframesReady, minDuration]).then(() => {
@@ -196,6 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
     runVideoLoadingScreen(initialVideoSection, readyPromises);
     Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
   }
+
+  // Start fetching the Reels iframes now, in the background, so they're
+  // already loaded (or well underway) by the time the user switches tabs.
+  prefetchReels();
 });
 
 /* ===== Media training skill tabs ===== */
