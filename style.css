@@ -916,6 +916,29 @@ nav.main-nav {
 }
 .pricing-bar strong { color: var(--cream); font-weight: 500; }
 
+.wave-banner {
+  text-align: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px 24px;
+  font-size: clamp(11px, 1.5vw, 16px);
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.wave-letter {
+  display: inline-block;
+  animation: wave-letter-bounce 2.4s ease-in-out infinite;
+}
+@keyframes wave-letter-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave-letter { animation: none; }
+}
+
 .cta-center {
   text-align: center;
   padding: 8px 32px 0;
