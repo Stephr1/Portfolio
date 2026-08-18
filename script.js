@@ -487,7 +487,7 @@ if (headerBar) {
 /* ===== Wave banner: per-letter bounce, phase offset by index so the
    crest repeats every WAVE_PERIOD_LETTERS letters (a sine wave "period"). ===== */
 const WAVE_PERIOD_LETTERS = 6;
-const WAVE_ANIMATION_DURATION_S = 2.4; // matches wave-letter-bounce in style.css
+const WAVE_ANIMATION_DURATION_S = 1.2; // matches wave-letter-bounce in style.css
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.wave-banner').forEach(el => {
     const text = el.textContent;
