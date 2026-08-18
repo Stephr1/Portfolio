@@ -929,7 +929,7 @@ nav.main-nav {
 }
 .wave-letter {
   display: inline-block;
-  animation: wave-letter-bounce 1.2s ease-in-out infinite;
+  animation: wave-letter-bounce 0.9s ease-in-out infinite;
 }
 @keyframes wave-letter-bounce {
   0%, 100% { transform: translateY(0); }
