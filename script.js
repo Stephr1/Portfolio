@@ -31,6 +31,12 @@ const REELS_LOADING_SCREEN_MIN_MS = 1350;
 const REELS_LOADING_SCREEN_SAFETY_MS = 3000;
 let reelsIntroShown = false;
 
+// Videos are paused-in-place (not torn down) when leaving the tab, so once
+// every video has proven it can reach 'playing' at least once, resuming
+// them again is instant — no buffering to hide. Only the first time (initial
+// load or an unusually fast first switch) still needs the longer curtain.
+let videoSectionEverReady = false;
+
 // Instagram embeds are cross-origin iframes, so 'load' (fired once, even
 // cross-origin) is the only readiness signal available — there's no
 // equivalent of a video 'playing' event to hook into.
@@ -166,7 +172,9 @@ function switchTab(id, triggerEl) {
     if (sectionEl) sectionEl.classList.add('videos-loading');
     showSection();
     const readyPromises = resumeVideoSection(sectionEl);
-    runVideoLoadingScreen(sectionEl, readyPromises, VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS);
+    const minDuration = videoSectionEverReady ? VIDEO_LOADING_SCREEN_MIN_MS : VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS;
+    runVideoLoadingScreen(sectionEl, readyPromises, minDuration);
+    Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
   } else if (id === 'reels' && !reelsIntroShown) {
     reelsIntroShown = true;
     const sectionEl = document.getElementById('section-reels');
@@ -186,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videos = Array.from(initialVideoSection.querySelectorAll('video'));
     const readyPromises = videos.map(video => waitForVideoPlaying(video, { alreadyOk: true }));
     runVideoLoadingScreen(initialVideoSection, readyPromises);
+    Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
   }
 });
 
