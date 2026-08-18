@@ -460,14 +460,16 @@ nav.main-nav {
   color: var(--gold);
 }
 .cameralessons-skill-tab {
-  font-size: 12px;
-  padding: 7px 9px;
+  font-size: 17px;
+  padding: 11px 18px;
 }
 .cameralessons-skill-tab i {
-  font-size: 12px;
+  font-size: 16px;
 }
 .cameralessons-skills-row {
-  gap: 7px;
+  gap: 14px;
+  flex-wrap: wrap;
+  overflow-x: visible;
 }
 .mediatraining-skill-tab:hover, .cameralessons-skill-tab:hover {
   background: rgba(255,255,255,0.06);
