@@ -528,6 +528,9 @@ nav.main-nav {
   color: var(--gold);
   font-weight: 700;
 }
+.skill-desc-list li.skill-desc-disclaimer::before {
+  content: '*';
+}
 /* Reels grid */
 .reels-grid {
   display: grid;
