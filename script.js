@@ -27,59 +27,12 @@ const VIDEO_EMBEDS = {
 const VIDEO_LOADING_SCREEN_MIN_MS = 500;
 const VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS = 1350;
 const VIDEO_LOADING_SCREEN_SAFETY_MS = 2000;
-const REELS_LOADING_SCREEN_MIN_MS = 1350;
-const REELS_LOADING_SCREEN_SAFETY_MS = 3000;
-let reelsIntroShown = false;
 
 // Videos are paused-in-place (not torn down) when leaving the tab, so once
 // every video has proven it can reach 'playing' at least once, resuming
 // them again is instant — no buffering to hide. Only the first time (initial
 // load or an unusually fast first switch) still needs the longer curtain.
 let videoSectionEverReady = false;
-
-// Kicked off once, at page load, so the Instagram embeds fetch in the
-// background while the video tab is loading — by the time the user visits
-// the Reels tab the iframes are usually already loaded and the curtain
-// only needs to cover its minimum duration, not the full network fetch.
-let reelsReadyPromise = null;
-
-// Instagram embeds are cross-origin iframes, so 'load' (fired once, even
-// cross-origin) is the only readiness signal available — there's no
-// equivalent of a video 'playing' event to hook into.
-function prefetchReels() {
-  if (reelsReadyPromise) return reelsReadyPromise;
-  const sectionEl = document.getElementById('section-reels');
-  if (!sectionEl) return Promise.resolve();
-
-  const iframes = Array.from(sectionEl.querySelectorAll('iframe'));
-  const loadPromises = iframes.map(iframe => new Promise(resolve => {
-    const done = () => {
-      iframe.removeEventListener('load', done);
-      iframe.removeEventListener('error', done);
-      resolve();
-    };
-    iframe.addEventListener('load', done);
-    iframe.addEventListener('error', done);
-  }));
-  // Instagram embeds are network-dependent and can be slow (or blocked); don't wait forever.
-  reelsReadyPromise = Promise.race([
-    Promise.all(loadPromises),
-    new Promise(resolve => setTimeout(resolve, REELS_LOADING_SCREEN_SAFETY_MS))
-  ]);
-  return reelsReadyPromise;
-}
-
-function runReelsLoadingScreen(sectionEl) {
-  if (!sectionEl) return;
-  sectionEl.classList.add('reels-loading');
-
-  const iframesReady = prefetchReels();
-  const minDuration = new Promise(resolve => setTimeout(resolve, REELS_LOADING_SCREEN_MIN_MS));
-
-  Promise.all([iframesReady, minDuration]).then(() => {
-    sectionEl.classList.remove('reels-loading');
-  });
-}
 
 // Resolves once `video` is actually rendering frames again. `alreadyOk` lets the
 // initial page-load path treat a video that's already playing as done immediately —
@@ -190,12 +143,6 @@ function switchTab(id, triggerEl) {
     const minDuration = videoSectionEverReady ? VIDEO_LOADING_SCREEN_MIN_MS : VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS;
     runVideoLoadingScreen(sectionEl, readyPromises, minDuration);
     Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
-  } else if (id === 'reels' && !reelsIntroShown) {
-    reelsIntroShown = true;
-    const sectionEl = document.getElementById('section-reels');
-    if (sectionEl) sectionEl.classList.add('reels-loading');
-    showSection();
-    runReelsLoadingScreen(sectionEl);
   } else {
     showSection();
   }
@@ -203,6 +150,9 @@ function switchTab(id, triggerEl) {
 
 // The video tab is active by default on page load, so run the same
 // loading screen there rather than only on subsequent tab switches.
+// The Reels iframes (loaded eagerly, see index.html) fetch in the
+// background during this same window, so by the time the Reels tab is
+// first clicked it just reveals instantly, same as any later visit.
 document.addEventListener('DOMContentLoaded', () => {
   const initialVideoSection = document.getElementById('section-video');
   if (initialVideoSection && initialVideoSection.classList.contains('active')) {
@@ -211,10 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     runVideoLoadingScreen(initialVideoSection, readyPromises);
     Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
   }
-
-  // Start fetching the Reels iframes now, in the background, so they're
-  // already loaded (or well underway) by the time the user switches tabs.
-  prefetchReels();
 });
 
 /* ===== Media training skill tabs ===== */

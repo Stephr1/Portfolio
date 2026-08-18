@@ -508,29 +508,6 @@ nav.main-nav {
   line-height: 1;
   color: var(--gold);
 }
-/* Reels loading screen */
-.reels-stage {
-  position: relative;
-}
-.reels-loading-screen {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  background: var(--purple-glow-bg);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-#section-reels.reels-loading .reels-loading-screen {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 /* Reels grid */
 .reels-grid {
   display: grid;
