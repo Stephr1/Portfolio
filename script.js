@@ -154,6 +154,7 @@ function switchTab(id, triggerEl) {
 // background during this same window, so by the time the Reels tab is
 // first clicked it just reveals instantly, same as any later visit.
 document.addEventListener('DOMContentLoaded', () => {
+  window.scrollTo(0, 0);
   const initialVideoSection = document.getElementById('section-video');
   if (initialVideoSection && initialVideoSection.classList.contains('active')) {
     const videos = Array.from(initialVideoSection.querySelectorAll('video'));
@@ -345,8 +346,8 @@ function changeNightlifePhoto(direction) {
   showNightlifePhoto();
 }
 
-const corporateImages = Array.from({ length: 9 }, (_, index) => `images/covers/Corperate-${index + 1}.png`);
-const corporateCaptions = Array.from({ length: 9 }, () => '');
+const corporateImages = [1, 4, 5, 6, 7, 8, 9].map(n => `images/covers/Corperate-${n}.png`);
+const corporateCaptions = corporateImages.map(() => '');
 let currentCorporateIndex = 0;
 
 function showCorporatePhoto() {
@@ -484,24 +485,71 @@ if (headerBar) {
   }, { passive: true });
 }
 
-/* ===== Wave banner: per-letter bounce, phase offset by index so the
-   crest repeats every WAVE_PERIOD_LETTERS letters (a sine wave "period"). ===== */
-const WAVE_PERIOD_LETTERS = 4;
-const WAVE_ANIMATION_DURATION_S = 0.9; // matches wave-letter-bounce in style.css
+/* ===== Wave banner: a single bounce sweeps left-to-right across the text,
+   then waits a random 3-10s pause (measured from when it finishes) before
+   sweeping again. ===== */
+const WAVE_LETTER_BOUNCE_S = 0.3;
+const WAVE_SWEEP_DURATION_S = 0.7;
+const WAVE_PAUSE_MIN_S = 1.5;
+const WAVE_PAUSE_MAX_S = 4;
+const WAVE_FIRST_RUN_DELAY_S = 2;
 document.addEventListener('DOMContentLoaded', () => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.wave-banner').forEach(el => {
     const text = el.textContent;
     el.textContent = '';
-    const delayPerLetter = WAVE_ANIMATION_DURATION_S / WAVE_PERIOD_LETTERS;
-    Array.from(text).forEach((ch, i) => {
+    const letters = Array.from(text).map(ch => {
       const span = document.createElement('span');
       span.className = 'wave-letter';
       span.textContent = ch === ' ' ? ' ' : ch;
-      // Negative delay starts each letter mid-cycle, as if the wave had
-      // already been traveling — so it's mid-motion across the whole
-      // sentence immediately, with no letter-by-letter ramp-in.
-      span.style.animationDelay = (-i * delayPerLetter) + 's';
       el.appendChild(span);
+      return span;
     });
+    if (reduceMotion || !letters.length) return;
+
+    const sweepMs = WAVE_SWEEP_DURATION_S * 1000;
+    const letterMs = WAVE_LETTER_BOUNCE_S * 1000;
+    const perLetterDelay = letters.length > 1 ? sweepMs / (letters.length - 1) : 0;
+
+    const bounceLetter = (span, delay) => {
+      span.animate(
+        [
+          { transform: 'translateY(0)' },
+          { transform: 'translateY(-5px)', offset: 0.5 },
+          { transform: 'translateY(0)' }
+        ],
+        { duration: letterMs, delay, easing: 'ease-in-out' }
+      );
+    };
+
+    const oneWayMs = (letters.length - 1) * perLetterDelay + letterMs;
+
+    const runSweep = () => {
+      // There: left to right.
+      letters.forEach((span, i) => bounceLetter(span, i * perLetterDelay));
+      // Back: right to left, starting once the rightmost letter has landed.
+      letters.forEach((span, i) => bounceLetter(span, oneWayMs + (letters.length - 1 - i) * perLetterDelay));
+
+      const totalMs = oneWayMs * 2;
+      const pauseMs = (WAVE_PAUSE_MIN_S + Math.random() * (WAVE_PAUSE_MAX_S - WAVE_PAUSE_MIN_S)) * 1000;
+      setTimeout(runSweep, totalMs + pauseMs);
+    };
+
+    // Wait until the tab this banner lives on is actually opened (rather
+    // than sweeping away unseen in the background from page load), then
+    // give it a beat before the first wave plays.
+    const section = el.closest('.section');
+    const startFirstRun = () => setTimeout(runSweep, WAVE_FIRST_RUN_DELAY_S * 1000);
+    if (!section || section.classList.contains('active')) {
+      startFirstRun();
+    } else {
+      const observer = new MutationObserver(() => {
+        if (section.classList.contains('active')) {
+          observer.disconnect();
+          startFirstRun();
+        }
+      });
+      observer.observe(section, { attributes: true, attributeFilter: ['class'] });
+    }
   });
 });

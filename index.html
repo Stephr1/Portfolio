@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Stop the browser from restoring a previous scroll position on reload —
+    // every visit should land at the top of the (default) Videography tab.
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  </script>
   <title>Kevdog Productions — Photography & Videography</title>
   <meta name="description" content="Kevin Heieis — photographer and videographer capturing proposals, corporate events, portraits, nightlife, sports, and more. UBC graduate serving Vancouver and beyond." />
   <link rel="icon" href="images/logo.png" type="image/png" />
@@ -268,7 +273,7 @@
 
     <div class="cta-center">
       <!-- BOOKING: Replace href with your Google Calendar appointment scheduling link -->
-      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Inquire Here</a>
     </div>
   </section>
 
@@ -363,7 +368,9 @@
       </div>
     </div>
 
-    
+    <div class="cta-center">
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Inquire Here</a>
+    </div>
   </section>
 
 
@@ -411,12 +418,12 @@
     </div>
 
     <div class="pricing-bar">
-      <strong>Pricing by project</strong> — starting at $200<br>
+      <strong>Pricing by project</strong><br>
       Discounted rates for new artists &amp; non-profit organizations
     </div>
 
     <div class="cta-center">
-      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+      <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Inquire Here</a>
     </div>
   </section>
 
@@ -435,7 +442,7 @@
     <div class="mediatraining-skills">
       <h3 class="mediatraining-skills-title">Here's what we can do for you:</h3>
       <div class="mediatraining-skills-row">
-        <button type="button" class="mediatraining-skill-tab active" data-desc="Whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create a human-made authentic message viewers will respect." onclick="selectMediaSkill(this)">
+        <button type="button" class="mediatraining-skill-tab active" data-desc="For speeches, videos, or press releases: whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create a human-made authentic message viewers will respect." onclick="selectMediaSkill(this)">
           <i class="ti ti-pencil" aria-hidden="true"></i> Script Writing and Editing
         </button>
         <button type="button" class="mediatraining-skill-tab" data-desc="Worried about an upcoming press interview? We'll teach you how media teams write articles, train you with recorded practice questions, and help you develop key messages." onclick="selectMediaSkill(this)">
@@ -445,7 +452,7 @@
           <i class="ti ti-message-2" aria-hidden="true"></i> Confidence and Speech Development
         </button>
       </div>
-      <div class="mediatraining-skill-panel" id="mediatraining-skill-panel">Whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create an authentic message viewers will respect.</div>
+      <div class="mediatraining-skill-panel" id="mediatraining-skill-panel">For speeches, videos, or press releases: whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create an authentic message viewers will respect.</div>
     </div>
 
     <div class="pricing-bar">
@@ -453,7 +460,7 @@
     </div>
 
     <div class="cta-center">
-      <a href="mailto:kevin@kevdog.productions" class="btn-primary">Contact Kevin</a>
+      <a href="mailto:kevin@kevdog.productions" class="btn-primary">Inquire Here</a>
     </div>
   </section>
 
@@ -485,7 +492,7 @@
     <p class="wave-banner" id="editing-bundle-banner">Save 20% on editing sessions by bundling with any other lesson + learn to edit your test shots right away</p>
 
     <div class="cta-center">
-      <a href="mailto:kevin@kevdog.productions" class="btn-primary">Contact Kevin</a>
+      <a href="mailto:kevin@kevdog.productions" class="btn-primary">Inquire Here</a>
     </div>
   </section>
 
@@ -493,8 +500,7 @@
   <!-- ====== ABOUT SECTION ====== -->
   <section id="section-about" class="section" aria-label="About Kevin">
     <div class="section-hero">
-      <p class="section-eyebrow">The Photographer</p>
-      <h2 class="section-title">Kevin Heieis</h2>
+      <p class="section-tagline">Kevdog Productions doesn't just provide photos and footage — we provide outcomes, turning documentaries, music videos, and political storytelling into results.</p>
     </div>
 
     <div class="about-inner">
@@ -503,24 +509,28 @@
           <img src="images/covers/Kevpic.png" alt="Kevin Heieis">
         </div>
         <div>
-          <h3 class="about-name">Kevin Heieis</h3>
-          <p class="about-role">Photographer &amp; Videographer · UBC Graduate</p>
+          <h3 class="about-name">Kevin 'Kevdog' Heieis</h3>
+          <p class="about-role">Founder - Videographer, Photographer, Editor</p>
           <p class="about-bio">
-            Kevin captures the raw emotions and energy of every moment — from
-            intimate proposals to large-scale sporting events. A UBC graduate with
-            an eye for cinematic storytelling, Kevin brings warmth, creativity, and
-            professionalism to every shoot. Whether you need a polished corporate
-            reel or a personal portrait session, Kevdog Productions delivers images
-            and video that truly reflect who you are.
+            While graduating from UBC Engineering with a focus in Chemical and
+            Environmental Engineering in 2026, Kevin's time in college was significantly
+            focused on leadership. He served as a captain, a President,
+            and as the first-ever UBC VP Student Life elected to serve 60,000 UBC
+            students in 2025.
           </p>
-          <div class="about-chips">
-            <span class="chip">UBC Graduate</span>
-            <span class="chip">Photography</span>
-            <span class="chip">Videography</span>
-            <span class="chip">Script Writing</span>
-            <span class="chip">Media Training</span>
-            <span class="chip">Vancouver, BC</span>
-          </div>
+          <p class="about-bio">
+            His unique ability to connect with anyone has helped him
+            build relationships with people from retail managers to Formula 1 CEOs. 
+          </p>
+          <p class="about-bio">
+            Whether your project requires him to film while skiing backwards, or
+            climbing a mountain to covertly take engagement photos, Kevin is also
+            no stranger to adventure.
+          </p>
+          <p class="about-bio">
+            Fun fact! The Kevdog logo is animated from a real picture of his family
+            dog Sagan, aka "Saggy Waggy."
+          </p>
         </div>
       </div>
 

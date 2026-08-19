@@ -350,13 +350,13 @@ nav.main-nav {
   display: block;
 }
 .section-hero {
-  padding: 56px 32px 40px;
+  padding: 28px 32px;
   text-align: center;
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.02);
   border-radius: var(--radius);
   backdrop-filter: blur(14px);
-  margin: 0 auto 48px;
+  margin: 0 auto 24px;
   max-width: 880px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
 }
@@ -384,9 +384,9 @@ nav.main-nav {
 
 /* ===== MEDIA TRAINING CREDENTIAL QUOTE ===== */
 .mediatraining-credential {
-  max-width: 980px;
+  max-width: 1180px;
   margin: 0 auto 24px;
-  padding: 14px 40px 0;
+  padding: 16px 40px;
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-gold);
   border-left: 3px solid var(--gold);
@@ -394,10 +394,10 @@ nav.main-nav {
   box-shadow: 0 20px 40px rgba(0,0,0,0.16);
 }
 .mediatraining-credential-text {
-  font-size: 18px;
+  font-size: 16px;
   font-style: italic;
   color: var(--cream);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 .mediatraining-credential-attribution {
   margin-top: 8px;
@@ -406,13 +406,15 @@ nav.main-nav {
   font-style: normal;
   line-height: 1;
   color: var(--gold);
-  transform: translateX(13cm);
 }
 .mediatraining-skills, .cameralessons-skills {
   max-width: 1180px;
   margin: 0 auto 48px;
   padding: 0 24px;
   text-align: center;
+}
+.cameralessons-skills {
+  max-width: 1320px;
 }
 .mediatraining-skills-title, .cameralessons-skills-title {
   font-size: 20px;
@@ -464,14 +466,14 @@ nav.main-nav {
   color: var(--gold);
 }
 .cameralessons-skill-tab {
-  font-size: 13px;
-  padding: 7px 9px;
+  font-size: 17px;
+  padding: 10px 13px;
 }
 .cameralessons-skill-tab i {
-  font-size: 12px;
+  font-size: 16px;
 }
 .cameralessons-skills-row {
-  gap: 7px;
+  gap: 6px;
   flex-wrap: nowrap;
   overflow-x: auto;
 }
@@ -492,6 +494,13 @@ nav.main-nav {
   height: 2px;
   background: var(--gold);
   border-radius: 999px;
+}
+/* Camera Lessons' tighter row padding leaves little margin below the tabs
+   for the shared underline (which sits outside the tab's own box), so pull
+   it fully inside the tab instead — that way it can never get clipped
+   regardless of the row's overflow/padding. */
+.cameralessons-skill-tab.active::after {
+  bottom: 5px;
 }
 .mediatraining-skill-panel, .cameralessons-skill-panel {
   display: flex;
@@ -911,6 +920,7 @@ nav.main-nav {
   letter-spacing: 0.3px;
   text-align: center;
   line-height: 1.5;
+  background: #000;
 }
 
 /* ===== PRICING BAR ===== */
@@ -936,14 +946,6 @@ nav.main-nav {
 }
 .wave-letter {
   display: inline-block;
-  animation: wave-letter-bounce 0.9s ease-in-out infinite;
-}
-@keyframes wave-letter-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-0.7px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wave-letter { animation: none; }
 }
 
 .cta-center {
@@ -971,19 +973,14 @@ nav.main-nav {
 }
 .about-avatar {
   width: 100%;
-  max-width: 220px;
-  aspect-ratio: 1;
-  border-radius: 30px;
-  background: linear-gradient(135deg, rgba(232,174,76,0.15), rgba(0,0,0,0.25));
-  border: 1px solid rgba(232,174,76,0.28);
+  max-width: 330px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 44px;
-  overflow: hidden;
 }
-.about-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.about-avatar img { width: 100%; height: auto; object-fit: contain; }
 .about-name { font-size: 26px; font-weight: 700; color: var(--cream); margin-bottom: 6px; }
 .about-role {
   font-size: 13px;
@@ -993,6 +990,7 @@ nav.main-nav {
   margin-bottom: 18px;
 }
 .about-bio { font-size: 16px; color: var(--muted); line-height: 1.9; }
+.about-bio + .about-bio { margin-top: 16px; }
 
 .about-chips {
   display: flex;
