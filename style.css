@@ -1197,10 +1197,21 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
 }
+.footer-copyright {
+  font-size: 12px;
+}
 footer a { color: var(--muted); transition: color 0.15s; }
+.instagram-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.instagram-brand-link svg { flex-shrink: 0; }
 footer a:hover { color: var(--gold); }
 
 /* ===== RESPONSIVE ===== */
