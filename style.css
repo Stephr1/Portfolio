@@ -452,7 +452,7 @@ nav.main-nav {
   line-height: 1;
   cursor: pointer;
   flex: 0 0 auto;
-  transition: background 180ms ease, outline-color 180ms ease;
+  transition: background 180ms ease, outline-color 180ms ease, transform 120ms ease;
 }
 .mediatraining-skill-tab i, .cameralessons-skill-tab i {
   font-size: 17px;
@@ -473,6 +473,7 @@ nav.main-nav {
 }
 .mediatraining-skill-tab:hover, .cameralessons-skill-tab:hover {
   background: rgba(255,255,255,0.06);
+  transform: translateY(-3px);
 }
 .mediatraining-skill-tab.active, .cameralessons-skill-tab.active {
   color: var(--gold);
