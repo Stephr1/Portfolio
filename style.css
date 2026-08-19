@@ -30,14 +30,14 @@ body {
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
-  padding-top: 90px; /* clears the fixed .site-header-bar */
+  padding-top: 88.96px; /* clears the fixed .site-header-bar */
 }
 
 @media (max-width: 900px) {
-  body { padding-top: 78px; }
+  body { padding-top: 73.96px; }
 }
 @media (max-width: 520px) {
-  body { padding-top: 68px; }
+  body { padding-top: 65.96px; }
 }
 
 a { color: inherit; text-decoration: none; }
@@ -72,9 +72,11 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 10px 24px;
+  padding: 4.48px 24px;
   background: #000;
   border-bottom: 1px solid rgba(255,255,255,0.06);
+  /* Fixed so a taller logo overflows the bar instead of stretching it. */
+  height: 74.96px;
 }
 .site-header-bar.scrolled {
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
@@ -188,18 +190,20 @@ nav.main-nav {
 }
 
 .site-logo {
-  height: 56px;
+  height: 85.8px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 @media (max-width: 900px) {
-  .site-logo { height: 44px; }
+  .site-header-bar { height: 59.96px; }
+  .site-logo { height: 66.3px; }
 }
 
 @media (max-width: 520px) {
-  .site-logo { height: 36px; }
+  .site-header-bar { height: 51.96px; }
+  .site-logo { height: 55.9px; }
 }
 .hero-eyebrow {
   font-size: 11px;
