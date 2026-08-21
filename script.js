@@ -21,6 +21,9 @@ const VIDEO_EMBEDS = {
   'Music':             'images/covers/Music.mp4',
   'Sports':            'images/covers/Sports2.mp4',
   'Interviews':        'images/covers/Interviews.mp4',
+  // Home page featured video — leave blank until a real file/link exists;
+  // the modal shows a "coming soon" placeholder for an empty entry.
+  'Working With Me':   '',
 };
 
 /* ===== Tab switching ===== */
@@ -28,17 +31,17 @@ const VIDEO_LOADING_SCREEN_MIN_MS = 500;
 const VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS = 1350;
 const VIDEO_LOADING_SCREEN_SAFETY_MS = 2000;
 
-// Videos are paused-in-place (not torn down) when leaving the tab, so once
-// every video has proven it can reach 'playing' at least once, resuming
-// them again is instant — no buffering to hide. Only the first time (initial
-// load or an unusually fast first switch) still needs the longer curtain.
-let videoSectionEverReady = false;
+// Videos are paused-in-place (not torn down) when leaving the panel, so once
+// they've proven they can reach 'playing' at least once, resuming again is
+// instant — no buffering to hide. Only the first time (an unusually fast
+// first switch) still needs the longer curtain.
+let videographyEverReady = false;
 
-// Resolves once `video` is actually rendering frames again. `alreadyOk` lets the
-// initial page-load path treat a video that's already playing as done immediately —
-// but a restart path must NOT use that shortcut, because calling play() flips
-// video.paused to false synchronously, before real playback resumes, which would
-// make this resolve instantly and defeat the wait.
+// Resolves once `video` is actually rendering frames again. `alreadyOk` lets an
+// already-playing video (checked via `!video.paused && readyState>=3`) resolve
+// immediately — but a restart path must NOT use that shortcut, because calling
+// play() flips video.paused to false synchronously, before real playback
+// resumes, which would make this resolve instantly and defeat the wait.
 function waitForVideoPlaying(video, { alreadyOk = false } = {}) {
   return new Promise(resolve => {
     if (alreadyOk && !video.paused && video.readyState >= 3) return resolve();
@@ -71,7 +74,7 @@ function runVideoLoadingScreen(sectionEl, videoReadyPromises, minDurationMs = VI
 }
 
 // Pauses every video in place (keeps currentTime) instead of tearing it down,
-// so there's nothing to re-buffer or re-decode when the tab is revisited.
+// so there's nothing to re-buffer or re-decode when the panel is revisited.
 function pauseVideoSection(sectionEl) {
   if (!sectionEl) return;
   sectionEl.querySelectorAll('video').forEach(video => {
@@ -95,14 +98,26 @@ function resumeVideoSection(sectionEl) {
   });
 }
 
+// Shared by both the top-level switchTab (entering Content Production while
+// its Videography sub-tab is the one that's active) and switchProductionTab
+// (switching directly to the Videography sub-tab) — same curtain/readiness
+// behavior either way.
+function enterVideographyPlayback(panel) {
+  const readyPromises = resumeVideoSection(panel);
+  const minDuration = videographyEverReady ? VIDEO_LOADING_SCREEN_MIN_MS : VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS;
+  runVideoLoadingScreen(panel, readyPromises, minDuration);
+  Promise.all(readyPromises).then(() => { videographyEverReady = true; });
+  // The Videography panel starts hidden (display:none) at page load, so the
+  // first-frame poster capture in initInlineVideoControls may not have had
+  // real decoded frames to grab yet. Re-running it (idempotent — guarded by
+  // data-controls-wired) once the panel is actually visible catches that.
+  initInlineVideoControls();
+}
+
 function switchTab(id, triggerEl) {
   const showSection = () => {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById('section-' + id).classList.add('active');
-
-    document.querySelectorAll('.hero-tagline').forEach(t => t.classList.remove('active'));
-    const tagline = document.querySelector('.hero-tagline[data-tagline="' + id + '"]');
-    if (tagline) tagline.classList.add('active');
 
     // clear active state from nav links and tab buttons
     document.querySelectorAll('.nav-link, .tab-btn').forEach(el => el.classList.remove('active'));
@@ -120,48 +135,73 @@ function switchTab(id, triggerEl) {
     }
   };
 
-  const videoSection = document.getElementById('section-video');
-  const isLeavingVideoTab = id !== 'video' && videoSection && videoSection.classList.contains('active');
-  if (isLeavingVideoTab) {
-    pauseVideoSection(videoSection);
+  const videographyPanel = document.getElementById('panel-videography');
+  const isLeavingVideography = id !== 'content-production' && videographyPanel && videographyPanel.classList.contains('active');
+  if (isLeavingVideography) {
+    pauseVideoSection(videographyPanel);
   }
 
-  if (id === 'video') {
-    const sectionEl = videoSection;
-    const alreadyOnVideoTab = sectionEl && sectionEl.classList.contains('active');
-    if (alreadyOnVideoTab) {
-      showSection();
+  if (id === 'reels') loadReelsIfNeeded();
+
+  // Entering Content Production while its remembered active sub-tab happens
+  // to be Videography needs the same "curtain up, reveal, resume" sequencing
+  // as switching sub-tabs directly — but only the FIRST time (if Content
+  // Production is already the active top-level section, this is a no-op
+  // re-click and playback is already running, so skip it).
+  const enteringVideographyFresh = id === 'content-production'
+    && videographyPanel && videographyPanel.classList.contains('active')
+    && !document.getElementById('section-content-production').classList.contains('active');
+
+  if (enteringVideographyFresh) videographyPanel.classList.add('videos-loading');
+  showSection();
+  if (enteringVideographyFresh) enterVideographyPlayback(videographyPanel);
+}
+
+/* ===== Content Production sub-tabs ===== */
+function switchProductionTab(id, triggerEl) {
+  const container = document.getElementById('section-content-production');
+  if (!container) return;
+
+  const showPanel = () => {
+    container.querySelectorAll('.production-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + id);
+    if (panel) panel.classList.add('active');
+
+    container.querySelectorAll('.production-tab').forEach(t => t.classList.remove('active'));
+    if (triggerEl && triggerEl.classList && triggerEl.classList.contains('production-tab')) {
+      triggerEl.classList.add('active');
+    } else {
+      container.querySelectorAll('[onclick]').forEach(el => {
+        const on = el.getAttribute('onclick') || '';
+        if (on.indexOf("switchProductionTab('" + id + "'") !== -1) {
+          el.classList.add('active');
+        }
+      });
+    }
+  };
+
+  const videographyPanel = document.getElementById('panel-videography');
+  const isLeavingVideography = id !== 'videography' && videographyPanel && videographyPanel.classList.contains('active');
+  if (isLeavingVideography) {
+    pauseVideoSection(videographyPanel);
+  }
+
+  if (id === 'videography') {
+    const alreadyOnVideography = videographyPanel && videographyPanel.classList.contains('active');
+    if (alreadyOnVideography) {
+      showPanel();
       return;
     }
-    // Cover with the curtain and reveal the section (still hidden behind it) BEFORE
-    // touching playback — resuming a video while its container is display:none
-    // decodes on a timeline disconnected from actual paint, causing staggered pop-in
-    // once the section becomes visible.
-    if (sectionEl) sectionEl.classList.add('videos-loading');
-    showSection();
-    const readyPromises = resumeVideoSection(sectionEl);
-    const minDuration = videoSectionEverReady ? VIDEO_LOADING_SCREEN_MIN_MS : VIDEO_LOADING_SCREEN_TAB_SWITCH_MIN_MS;
-    runVideoLoadingScreen(sectionEl, readyPromises, minDuration);
-    Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
+    if (videographyPanel) videographyPanel.classList.add('videos-loading');
+    showPanel();
+    enterVideographyPlayback(videographyPanel);
   } else {
-    showSection();
+    showPanel();
   }
 }
 
-// The video tab is active by default on page load, so run the same
-// loading screen there rather than only on subsequent tab switches.
-// The Reels iframes (loaded eagerly, see index.html) fetch in the
-// background during this same window, so by the time the Reels tab is
-// first clicked it just reveals instantly, same as any later visit.
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
-  const initialVideoSection = document.getElementById('section-video');
-  if (initialVideoSection && initialVideoSection.classList.contains('active')) {
-    const videos = Array.from(initialVideoSection.querySelectorAll('video'));
-    const readyPromises = videos.map(video => waitForVideoPlaying(video, { alreadyOk: true }));
-    runVideoLoadingScreen(initialVideoSection, readyPromises);
-    Promise.all(readyPromises).then(() => { videoSectionEverReady = true; });
-  }
 });
 
 /* ===== Media training skill tabs ===== */
@@ -178,53 +218,6 @@ function selectCameraSkill(triggerEl) {
   const panel = document.getElementById('cameralessons-skill-panel');
   if (panel) panel.innerHTML = triggerEl.dataset.desc;
 }
-
-/* ===== Hero rotating words ===== */
-const photoWords = ['Memories', 'Atmosphere', 'Product', 'Attractive Side', 'Talent'];
-const videoWords = ['Customers', 'Audience', 'Voters', 'Target Demographic'];
-const reelsWords = ['Funny', 'Informative', 'Exciting', 'Nostalgic'];
-
-let photoIdx = 0, videoIdx = 0, reelsIdx = 0;
-
-function cycleWord(wrapKey, words, idx) {
-  const wrap = document.querySelector('.rotate-word-wrap[data-rotate="' + wrapKey + '"]');
-  const current = wrap && wrap.querySelector('.rotate-word');
-  if (!wrap || !current) return idx;
-  const nextIdx = (idx + 1) % words.length;
-  const incoming = document.createElement('span');
-  incoming.className = 'rotate-word rw-no-transition rw-enter-start';
-  incoming.textContent = words[nextIdx];
-  wrap.appendChild(incoming);
-  void incoming.offsetWidth; // force reflow so the off-screen starting position applies first
-
-  // Keep the incoming hidden (rw-enter-start) until the outgoing has animated out.
-  incoming.classList.remove('rw-no-transition');
-  // ensure any enter animation class is removed so exit animation runs consistently
-  current.classList.remove('rw-enter');
-  current.classList.add('rw-exit');
-  // start the incoming animation after the exit duration
-  const exitMs = 700; // matches slide animation length in CSS
-  setTimeout(() => {
-    incoming.classList.remove('rw-enter-start');
-    incoming.classList.add('rw-enter');
-  }, exitMs);
-
-  // remove the old element right after the fade completes
-  setTimeout(() => { current.remove(); }, exitMs + 20);
-  return nextIdx;
-}
-
-setInterval(() => { photoIdx = cycleWord('photo-word', photoWords, photoIdx); }, 3200);
-setInterval(() => { videoIdx = cycleWord('video-word', videoWords, videoIdx); }, 3000);
-setInterval(() => { reelsIdx = cycleWord('reels-word', reelsWords, reelsIdx); }, 3000);
-
-// Ensure initial words animate the same as incoming words
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.rotate-word-wrap .rotate-word').forEach(el => {
-    // add the enter class so the starting word uses the same animation baseline
-    if (!el.classList.contains('rw-enter')) el.classList.add('rw-enter');
-  });
-});
 
 /* ===== Video modal ===== */
 function openVideoModal(title, embedUrl) {
@@ -272,6 +265,9 @@ function initInlineVideoControls() {
   if (!videoCards.length) return;
 
   videoCards.forEach(videoCard => {
+    if (videoCard.dataset.controlsWired) return;
+    videoCard.dataset.controlsWired = 'true';
+
     const videoEl = videoCard.querySelector('video');
     const button = videoCard.querySelector('.video-play-toggle');
     if (!videoEl || !button) return;
@@ -313,7 +309,7 @@ function initInlineVideoControls() {
   });
 }
 
-/* ===== Photo category modal (placeholder) ===== */
+/* ===== Photo carousels ===== */
 const nightlifeImages = Array.from({ length: 10 }, (_, index) => `images/covers/Music-${index + 1}.png`);
 const nightlifeCaptions = [
   'Loud Luxury - Joe',
@@ -451,6 +447,33 @@ function changeAnimalPhoto(direction) {
   showAnimalPhoto();
 }
 
+/* ===== Reels: lazy-load Instagram embeds only once the Reels tab is
+   actually opened (it now lives in the footer, not the main nav, so most
+   visitors never click it — no point paying the embed.js + 8-iframe cost
+   on every single page load, including the Home page's first impression). ===== */
+let reelsLoaded = false;
+function loadReelsIfNeeded() {
+  if (reelsLoaded) return;
+  reelsLoaded = true;
+  document.querySelectorAll('#section-reels iframe[data-src]').forEach(iframe => {
+    iframe.src = iframe.dataset.src;
+    iframe.removeAttribute('data-src');
+  });
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.instagram.com/embed.js';
+  script.onload = () => {
+    try {
+      if (window.instgrm && instgrm.Embeds && typeof instgrm.Embeds.process === 'function') {
+        instgrm.Embeds.process();
+      }
+    } catch (e) {
+      // ignore
+    }
+  };
+  document.body.appendChild(script);
+}
+
 /* ===== Wire up all booking buttons ===== */
 document.addEventListener('DOMContentLoaded', () => {
   showNightlifePhoto();
@@ -463,18 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[href*="YOUR_SCHEDULE_ID"]').forEach(el => {
     el.href = BOOKING_LINK;
   });
-});
-// --- Reel activation: enable iframe interaction on user activation ---
-// Removed activation overlay: iframes are interactive by default.
-// Ensure Instagram embeds are processed so they render correctly
-document.addEventListener('DOMContentLoaded', function () {
-  try {
-    if (window.instgrm && instgrm.Embeds && typeof instgrm.Embeds.process === 'function') {
-      instgrm.Embeds.process();
-    }
-  } catch (e) {
-    // ignore
-  }
 });
 
 /* ===== Header shadow once the page scrolls out from under it ===== */
@@ -501,6 +512,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const letters = Array.from(text).map(ch => {
       const span = document.createElement('span');
       span.className = 'wave-letter';
+      // A regular space as the sole content of an inline-block span can get
+      // collapsed to zero width by whitespace-collapsing rules — a
+      // non-breaking space renders reliably instead.
       span.textContent = ch === ' ' ? ' ' : ch;
       el.appendChild(span);
       return span;

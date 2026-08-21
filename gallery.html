@@ -6,29 +6,30 @@
   <title>Gallery — Kevdog Productions</title>
   <meta name="description" content="Photo gallery — Kevin Heieis photographer and videographer. Proposals, portraits, corporate events, nightlife, and sports." />
   <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="bg-glow" aria-hidden="true"></div>
-
 <!-- ===== HEADER ===== -->
 <header class="gallery-page-header">
-  <a href="index.html" class="logo" aria-label="Kevdog Productions home">
-    <div class="logo-emoji" aria-hidden="true">🐶</div>
+  <button type="button" class="logo" aria-label="Kevdog Productions home" onclick="window.location.href='index.html'">
+    <img src="images/covers/dog-icon.png" alt="" class="logo-icon">
     <span class="logo-text">Kevdog Productions</span>
-  </a>
+  </button>
 
-  <nav style="display:flex;gap:4px;" aria-label="Site navigation">
-    <a href="index.html#section-photo" class="nav-link">Photo</a>
-    <a href="index.html#section-video" class="nav-link">Video</a>
-    <a href="index.html#section-about" class="nav-link">About</a>
-    <a href="gallery.html" class="nav-link active">Gallery</a>
+  <nav class="nav-tabs" aria-label="Site navigation">
+    <a href="index.html" class="tab-btn">Home</a>
+    <a href="index.html" class="tab-btn">Content Production</a>
+    <a href="index.html" class="tab-btn">About Me</a>
+    <a href="gallery.html" class="tab-btn active">Gallery</a>
   </nav>
 
   <div class="header-icons">
-    <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener" aria-label="Instagram @kevdog.productions">
+    <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener" aria-label="Instagram @kevs.fx">
       <i class="ti ti-brand-instagram" aria-hidden="true"></i>
     </a>
     <a href="mailto:kevin@kevdog.productions" aria-label="Email Kevin">
@@ -58,59 +59,49 @@
 
 
 <!-- ===== MASONRY GALLERY ===== -->
-<!--
-  HOW TO ADD YOUR PHOTOS:
-  1. Place your image files in the images/gallery/ folder.
-  2. For each image, copy one <div class="masonry-item"> block below.
-  3. Set data-category to one of: proposals | corporate | parties | portraits | nightlife | sports
-  4. Replace the <div class="masonry-placeholder"> with:
-       <img src="images/gallery/your-photo.jpg" alt="Descriptive alt text" loading="lazy">
-  5. Update the data-caption to describe the photo.
-  The columns and lightbox are handled automatically.
--->
 <div class="masonry-grid" id="gallery-grid">
 
   <!-- PROPOSALS -->
   <div class="masonry-item" data-category="proposals" data-caption="Proposal" onclick="openLightbox(this)">
-    <img src="images/covers/proposals.svg" alt="Proposal photography sample" loading="lazy">
+    <img src="images/covers/Proposal-1.png" alt="Proposal photography sample" loading="lazy">
     <div class="masonry-overlay">Proposals</div>
   </div>
 
   <div class="masonry-item" data-category="proposals" data-caption="Proposal" onclick="openLightbox(this)">
-    <img src="images/covers/proposals.svg" alt="Proposal photography sample" loading="lazy">
+    <img src="images/covers/Proposal-2.png" alt="Proposal photography sample" loading="lazy">
     <div class="masonry-overlay">Proposals</div>
   </div>
 
   <!-- PORTRAITS -->
   <div class="masonry-item" data-category="portraits" data-caption="Portrait session" onclick="openLightbox(this)">
-    <img src="images/covers/portraits.svg" alt="Portrait photography sample" loading="lazy">
+    <img src="images/covers/Portrait-1.png" alt="Portrait photography sample" loading="lazy">
     <div class="masonry-overlay">Portraits</div>
   </div>
 
   <div class="masonry-item" data-category="portraits" data-caption="Portrait session" onclick="openLightbox(this)">
-    <img src="images/covers/portraits.svg" alt="Portrait photography sample" loading="lazy">
+    <img src="images/covers/Portrait-4.png" alt="Portrait photography sample" loading="lazy">
     <div class="masonry-overlay">Portraits</div>
   </div>
 
   <!-- CORPORATE -->
   <div class="masonry-item" data-category="corporate" data-caption="Corporate event" onclick="openLightbox(this)">
-    <img src="images/covers/corporate.svg" alt="Corporate event photography sample" loading="lazy">
+    <img src="images/covers/Corperate-1.png" alt="Corporate event photography sample" loading="lazy">
     <div class="masonry-overlay">Corporate Events</div>
   </div>
 
   <div class="masonry-item" data-category="corporate" data-caption="Corporate event" onclick="openLightbox(this)">
-    <img src="images/covers/corporate.svg" alt="Corporate event photography sample" loading="lazy">
+    <img src="images/covers/Corperate-6.png" alt="Corporate event photography sample" loading="lazy">
     <div class="masonry-overlay">Corporate Events</div>
   </div>
 
   <!-- PARTIES -->
   <div class="masonry-item" data-category="parties" data-caption="Private party" onclick="openLightbox(this)">
-    <img src="images/covers/parties.svg" alt="Private party photography sample" loading="lazy">
+    <img src="images/covers/Music-5.png" alt="Private party photography sample" loading="lazy">
     <div class="masonry-overlay">Private Parties</div>
   </div>
 
   <div class="masonry-item" data-category="parties" data-caption="Private party" onclick="openLightbox(this)">
-    <img src="images/covers/parties.svg" alt="Private party photography sample" loading="lazy">
+    <img src="images/covers/Music-6.png" alt="Private party photography sample" loading="lazy">
     <div class="masonry-overlay">Private Parties</div>
   </div>
 
@@ -127,12 +118,12 @@
 
   <!-- SPORTS -->
   <div class="masonry-item" data-category="sports" data-caption="Sports" onclick="openLightbox(this)">
-    <img src="images/covers/sports.svg" alt="Sports photography sample" loading="lazy">
+    <img src="images/covers/Sports-1.png" alt="Sports photography sample" loading="lazy">
     <div class="masonry-overlay">Sports</div>
   </div>
 
   <div class="masonry-item" data-category="sports" data-caption="Sports" onclick="openLightbox(this)">
-    <img src="images/covers/sports.svg" alt="Sports photography sample" loading="lazy">
+    <img src="images/covers/Sports-2.png" alt="Sports photography sample" loading="lazy">
     <div class="masonry-overlay">Sports</div>
   </div>
 
@@ -159,15 +150,17 @@
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <span>© 2025 Kevdog Productions · Kevin Heieis</span>
-  <div style="display:flex;gap:20px;align-items:center;">
-    <a href="https://www.instagram.com/kevdog.productions" target="_blank" rel="noopener">
-      <i class="ti ti-brand-instagram" aria-hidden="true"></i> @kevdog.productions
-    </a>
-    <a href="mailto:kevin@kevdog.productions">
-      <i class="ti ti-mail" aria-hidden="true"></i> Email
-    </a>
-    <a href="index.html">← Back to Home</a>
+  <div class="footer-row">
+    <span class="footer-copyright">© 2025 Kevdog Productions · Kevin Heieis</span>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener">
+        <i class="ti ti-brand-instagram" aria-hidden="true"></i> @kevs.fx
+      </a>
+      <a href="mailto:kevin@kevdog.productions">
+        <i class="ti ti-mail" aria-hidden="true"></i> Email
+      </a>
+      <a href="index.html">← Back to Home</a>
+    </div>
   </div>
 </footer>
 

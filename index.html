@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
     // Stop the browser from restoring a previous scroll position on reload —
-    // every visit should land at the top of the (default) Videography tab.
+    // every visit should land at the top of the (default) Home tab.
     if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
   </script>
-  <title>Kevdog Productions — Photography & Videography</title>
-  <meta name="description" content="Kevin Heieis — photographer and videographer capturing proposals, corporate events, portraits, nightlife, sports, and more. UBC graduate serving Vancouver and beyond." />
+  <title>Kevdog Productions — Content Production, Photography &amp; Videography</title>
+  <meta name="description" content="Kevin Heieis — Vancouver photographer and videographer offering a full content production package: photography, videography, behind-the-scenes, script writing, and posting. UBC graduate." />
   <link rel="icon" href="images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="style.css" />
   <script type="application/ld+json">
@@ -25,7 +25,7 @@
     "logo": "https://stephr1.github.io/Portfolio/images/covers/Kevdog%20Productions.png",
     "image": "https://stephr1.github.io/Portfolio/images/covers/Kevdog%20Productions.png",
     "email": "kevin@kevdog.productions",
-    "description": "Kevdog Productions is a Vancouver video and photography studio founded by Kevin Heieis, a UBC graduate who specializes in corporate event coverage, campaign videos for organizations and political candidates, and fast-turnaround social content for DJs, bands, and artists. Alongside that quicker-turnaround work, Kevin also directs longer-form storytelling, from concept-driven music videos to documentary-style productions, bringing the same combination of technical polish and genuine, upbeat energy to every shoot. Clients ranging from municipal candidates to touring musicians and media personalities work directly with Kevin from concept through delivery, and come away with footage built to grow their exposure and engagement.",
+    "description": "Kevdog Productions is a Vancouver content production studio founded by Kevin Heieis, a UBC graduate. The full package covers photography, videography, behind-the-scenes content, script writing, and posting — corporate events, campaign videos, social content for artists, music videos, and documentary-style storytelling, all handled by one team from concept through delivery.",
     "founder": {
       "@type": "Person",
       "name": "Kevin Heieis",
@@ -61,53 +61,45 @@
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Corporate Event Videography",
-          "serviceType": "Corporate video production",
-          "description": "On-site filming and edited recap videos for corporate events, conferences, and organizational functions."
+          "name": "Photography",
+          "serviceType": "Event & portrait photography",
+          "description": "On-location photography for events, portraits, proposals, and campaigns."
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Political & Campaign Video Production",
-          "serviceType": "Campaign video production",
-          "description": "Campaign videos and social content for political candidates and organizations, from announcement spots to day-of-event coverage."
+          "name": "Videography",
+          "serviceType": "Video production",
+          "description": "Corporate, event, music, and social video production from concept through delivery."
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Social Content for Musicians and DJs",
-          "serviceType": "Social media video production",
-          "description": "Short-form, high-energy video content for DJs, bands, and artists made to perform on Instagram and TikTok and grow audience engagement."
+          "name": "Behind the Scenes Content",
+          "serviceType": "Behind-the-scenes video production",
+          "description": "Candid making-of footage captured alongside the final deliverable."
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Music Video Production",
-          "serviceType": "Music video production",
-          "description": "Concept-driven music videos that pair cinematic visuals with narrative storytelling."
+          "name": "Script Writing",
+          "serviceType": "Script writing and editing",
+          "description": "Audience-aware script writing for speeches, videos, and press releases."
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Documentary Production",
-          "serviceType": "Documentary filmmaking",
-          "description": "Longer-form, documentary-style productions that explore a subject's story in depth."
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Event & Portrait Photography",
-          "serviceType": "Photography"
+          "name": "Content Posting",
+          "serviceType": "Social media content scheduling",
+          "description": "Scheduling, captioning, and platform formatting for consistent, on-brand posting."
         }
       }
     ]
@@ -116,173 +108,321 @@
 </head>
 <body>
 
-<div class="bg-glow" aria-hidden="true"></div>
-
 <!-- ===== STICKY HEADER — logo + tabs, fixed above everything ===== -->
 <header class="site-header-bar">
-  <img class="site-logo" src="images/covers/Kevdog%20Productions.png" alt="Kevdog Productions logo">
-  <div class="hero-tabs">
-    <button class="tab-btn active" onclick="switchTab('video', this)">
-      <i class="ti ti-video" aria-hidden="true"></i> Videography
+  <button type="button" class="logo" aria-label="Kevdog Productions — go to Home" onclick="switchTab('home')">
+    <img src="images/covers/dog-icon.png" alt="" class="logo-icon">
+    <span class="logo-text">Kevdog Productions</span>
+  </button>
+  <nav class="nav-tabs" aria-label="Primary">
+    <button class="tab-btn active" onclick="switchTab('home', this)">
+      <i class="ti ti-home" aria-hidden="true"></i> Home
     </button>
-    <button class="tab-btn" onclick="switchTab('reels', this)">
-      <i class="ti ti-player-track-next" aria-hidden="true"></i> Reels
-    </button>
-    <button class="tab-btn" onclick="switchTab('photo', this)">
-      <i class="ti ti-camera" aria-hidden="true"></i> Photography
-    </button>
-    <button class="tab-btn" onclick="switchTab('mediatraining', this)">
-      <i class="ti ti-microphone" aria-hidden="true"></i> Media Training
-    </button>
-    <button class="tab-btn" onclick="switchTab('cameralessons', this)">
-      <i class="ti ti-aperture" aria-hidden="true"></i> Camera Lessons
+    <button class="tab-btn" onclick="switchTab('content-production', this)">
+      <i class="ti ti-package" aria-hidden="true"></i> Content Production
     </button>
     <button class="tab-btn" onclick="switchTab('about', this)">
-      <i class="ti ti-user" aria-hidden="true"></i> About
+      <i class="ti ti-user" aria-hidden="true"></i> About Me
     </button>
-  </div>
+    <a href="gallery.html" class="tab-btn">
+      <i class="ti ti-photo" aria-hidden="true"></i> Gallery
+    </a>
+  </nav>
 </header>
-
-<!-- ===== HERO — full-page video background ===== -->
-<section id="hero" aria-label="Kevdog Productions showreel">
-  <!--
-    INSTRUCTIONS: Replace the src below with your video file or a YouTube embed.
-    For a local file: <source src="images/reel.mp4" type="video/mp4">
-    For a YouTube embed, remove the <video> tag entirely and use an iframe instead.
-  -->
-  <video id="hero-video" autoplay muted loop playsinline poster="images/hero-poster.jpg">
-    <source src="images/reel.mp4" type="video/mp4">
-    <!-- Fallback if video is missing — just shows the poster/overlay -->
-  </video>
-
-  <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="hero-content">
-    <p class="section-tagline hero-tagline" data-tagline="photo">
-      Capturing emotions that highlight your<br>
-      <span class="rotate-word-wrap" data-rotate="photo-word"><span class="rotate-word">Memories</span></span>
-    </p>
-    <p class="section-tagline hero-tagline active" data-tagline="video">
-      High quality video that will impress your<br>
-      <span class="rotate-word-wrap" data-rotate="video-word"><span class="rotate-word">Customers</span></span>
-    </p>
-    <p class="section-tagline hero-tagline" data-tagline="reels">
-      Turning footage into content that is<br>
-      <span class="rotate-word-wrap" data-rotate="reels-word"><span class="rotate-word">Funny</span></span>
-    </p>
-  </div>
-</section>
 
 
 <!-- ===== MAIN CONTENT ===== -->
 <main id="main-content">
 
-  <!-- ====== PHOTO SECTION ====== -->
-  <section id="section-photo" class="section" aria-label="Photography services">
-    <div class="photo-grid">
+  <!-- ====== HOME SECTION ====== -->
+  <section id="section-home" class="section active" aria-label="Overview">
+    <div class="section-hero home-hero">
+      <p class="section-eyebrow">Kevdog Productions</p>
+      <h1 class="home-title">Content production that feels like working with a friend who happens to be great at this.</h1>
+      <p class="section-tagline">Take a look at what it's actually like working together — real energy, real turnaround, real results.</p>
+    </div>
 
-      <div class="photo-card nightlife-card">
-        <div class="photo-card-img">
-          <button class="photo-carousel-nav prev" onclick="changeNightlifePhoto(-1)" aria-label="Previous photo">
-            <span aria-hidden="true" class="photo-arrow">‹</span>
-          </button>
-          <img id="nightlife-carousel-img" src="images/covers/Music-1.png" alt="Nightlife photo 1">
-          <div class="nightlife-caption" id="nightlife-caption">Loud Luxury - Joe</div>
-          <button class="photo-carousel-nav next" onclick="changeNightlifePhoto(1)" aria-label="Next photo">
-            <span aria-hidden="true" class="photo-arrow">›</span>
-          </button>
-        </div>
-        <div class="photo-card-label">Nightlife</div>
-      </div>
-
-      <div class="photo-card corporate-card">
-        <div class="photo-card-img">
-          <button class="photo-carousel-nav prev" onclick="changeCorporatePhoto(-1)" aria-label="Previous photo">
-            <span aria-hidden="true" class="photo-arrow">‹</span>
-          </button>
-          <img id="corporate-carousel-img" src="images/covers/Corperate-1.png" alt="Corporate photo 1">
-          <div class="nightlife-caption" id="corporate-caption"></div>
-          <button class="photo-carousel-nav next" onclick="changeCorporatePhoto(1)" aria-label="Next photo">
-            <span aria-hidden="true" class="photo-arrow">›</span>
-          </button>
-        </div>
-        <div class="photo-card-label">Corporate Events</div>
-      </div>
-
-      <div class="photo-card proposal-card">
-        <div class="photo-card-img">
-          <button class="photo-carousel-nav prev" onclick="changeProposalPhoto(-1)" aria-label="Previous photo">
-            <span aria-hidden="true" class="photo-arrow">‹</span>
-          </button>
-          <img id="proposal-carousel-img" src="images/covers/Proposal-1.png" alt="Proposal photo 1">
-          <div class="nightlife-caption" id="proposal-caption"></div>
-          <button class="photo-carousel-nav next" onclick="changeProposalPhoto(1)" aria-label="Next photo">
-            <span aria-hidden="true" class="photo-arrow">›</span>
-          </button>
-        </div>
-        <div class="photo-card-label">Proposals</div>
-      </div>
-
-      <div class="photo-card portrait-card">
-        <div class="photo-card-img">
-          <button class="photo-carousel-nav prev" onclick="changePortraitPhoto(-1)" aria-label="Previous photo">
-            <span aria-hidden="true" class="photo-arrow">‹</span>
-          </button>
-          <img id="portrait-carousel-img" src="images/covers/Portrait-1.png" alt="Portrait photo 1">
-          <div class="nightlife-caption" id="portrait-caption"></div>
-          <button class="photo-carousel-nav next" onclick="changePortraitPhoto(1)" aria-label="Next photo">
-            <span aria-hidden="true" class="photo-arrow">›</span>
-          </button>
-        </div>
-        <div class="photo-card-label">Portraits</div>
-      </div>
-
-      <div class="photo-card animal-card">
-        <div class="photo-card-img">
-          <button class="photo-carousel-nav prev" onclick="changeAnimalPhoto(-1)" aria-label="Previous photo">
-            <span aria-hidden="true" class="photo-arrow">‹</span>
-          </button>
-          <img id="animal-carousel-img" src="images/covers/animal-1.png" alt="Animal photo 1">
-          <div class="nightlife-caption" id="animal-caption"></div>
-          <button class="photo-carousel-nav next" onclick="changeAnimalPhoto(1)" aria-label="Next photo">
-            <span aria-hidden="true" class="photo-arrow">›</span>
-          </button>
-        </div>
-        <div class="photo-card-label">Animals</div>
-      </div>
-
-      <div class="photo-card sports-card">
-        <div class="photo-card-img">
-          <button class="photo-carousel-nav prev" onclick="changeSportsPhoto(-1)" aria-label="Previous photo">
-            <span aria-hidden="true" class="photo-arrow">‹</span>
-          </button>
-          <img id="sports-carousel-img" src="images/covers/Sports-1.png" alt="Sports photo 1">
-          <div class="nightlife-caption" id="sports-caption"></div>
-          <button class="photo-carousel-nav next" onclick="changeSportsPhoto(1)" aria-label="Next photo">
-            <span aria-hidden="true" class="photo-arrow">›</span>
-          </button>
-        </div>
-        <div class="photo-card-label">Sports</div>
-      </div>
-
+    <div class="featured-video-wrap">
+      <button type="button" class="featured-video-card" onclick="openVideoModal('Working With Me')">
+        <img src="images/covers/Kevpic.png" alt="" class="featured-video-poster">
+        <span class="featured-video-overlay" aria-hidden="true"></span>
+        <span class="featured-video-play" aria-hidden="true"><i class="ti ti-player-play-filled"></i></span>
+        <span class="featured-video-label">What it's like working with me</span>
+      </button>
     </div>
 
     <div class="cta-center">
-      <p class="booking-note">Photography rate is $100/hour, book your event now below. Signed contract required 24 hours prior to the event or a $200 fee will be added. Discounted rates for small artists &amp; non-profit organizations.</p>
+      <button type="button" class="btn-primary" onclick="switchTab('content-production', this)">See the Content Production Package</button>
+    </div>
+  </section>
+
+
+  <!-- ====== CONTENT PRODUCTION SECTION ====== -->
+  <section id="section-content-production" class="section" aria-label="Content production services">
+    <div class="section-hero">
+      <p class="section-eyebrow">The Package</p>
+      <h2 class="section-title">Content Production</h2>
+      <p class="section-tagline">Everything you need for polished, consistent content — photography, videography, behind-the-scenes, scripting, and posting, handled by one team.</p>
+    </div>
+
+    <div class="production-tabs-row" role="tablist" aria-label="Content production services">
+      <button type="button" class="production-tab active" data-panel="photography" onclick="switchProductionTab('photography', this)">
+        <i class="ti ti-camera" aria-hidden="true"></i> Photography
+      </button>
+      <button type="button" class="production-tab" data-panel="videography" onclick="switchProductionTab('videography', this)">
+        <i class="ti ti-video" aria-hidden="true"></i> Videography
+      </button>
+      <button type="button" class="production-tab" data-panel="bts" onclick="switchProductionTab('bts', this)">
+        <i class="ti ti-clapperboard" aria-hidden="true"></i> Behind the Scenes
+      </button>
+      <button type="button" class="production-tab" data-panel="scriptwriting" onclick="switchProductionTab('scriptwriting', this)">
+        <i class="ti ti-pencil" aria-hidden="true"></i> Script Writing
+      </button>
+      <button type="button" class="production-tab" data-panel="posting" onclick="switchProductionTab('posting', this)">
+        <i class="ti ti-send" aria-hidden="true"></i> Posting
+      </button>
+    </div>
+
+    <!-- PHOTOGRAPHY -->
+    <div class="production-panel active" id="panel-photography">
+      <div class="photo-grid">
+
+        <div class="photo-card nightlife-card">
+          <div class="photo-card-img">
+            <button class="photo-carousel-nav prev" onclick="changeNightlifePhoto(-1)" aria-label="Previous photo">
+              <span aria-hidden="true" class="photo-arrow">‹</span>
+            </button>
+            <img id="nightlife-carousel-img" src="images/covers/Music-1.png" alt="Nightlife photo 1">
+            <div class="nightlife-caption" id="nightlife-caption">Loud Luxury - Joe</div>
+            <button class="photo-carousel-nav next" onclick="changeNightlifePhoto(1)" aria-label="Next photo">
+              <span aria-hidden="true" class="photo-arrow">›</span>
+            </button>
+          </div>
+          <div class="photo-card-label">Nightlife</div>
+        </div>
+
+        <div class="photo-card corporate-card">
+          <div class="photo-card-img">
+            <button class="photo-carousel-nav prev" onclick="changeCorporatePhoto(-1)" aria-label="Previous photo">
+              <span aria-hidden="true" class="photo-arrow">‹</span>
+            </button>
+            <img id="corporate-carousel-img" src="images/covers/Corperate-1.png" alt="Corporate photo 1">
+            <div class="nightlife-caption" id="corporate-caption"></div>
+            <button class="photo-carousel-nav next" onclick="changeCorporatePhoto(1)" aria-label="Next photo">
+              <span aria-hidden="true" class="photo-arrow">›</span>
+            </button>
+          </div>
+          <div class="photo-card-label">Corporate Events</div>
+        </div>
+
+        <div class="photo-card proposal-card">
+          <div class="photo-card-img">
+            <button class="photo-carousel-nav prev" onclick="changeProposalPhoto(-1)" aria-label="Previous photo">
+              <span aria-hidden="true" class="photo-arrow">‹</span>
+            </button>
+            <img id="proposal-carousel-img" src="images/covers/Proposal-1.png" alt="Proposal photo 1">
+            <div class="nightlife-caption" id="proposal-caption"></div>
+            <button class="photo-carousel-nav next" onclick="changeProposalPhoto(1)" aria-label="Next photo">
+              <span aria-hidden="true" class="photo-arrow">›</span>
+            </button>
+          </div>
+          <div class="photo-card-label">Proposals</div>
+        </div>
+
+        <div class="photo-card portrait-card">
+          <div class="photo-card-img">
+            <button class="photo-carousel-nav prev" onclick="changePortraitPhoto(-1)" aria-label="Previous photo">
+              <span aria-hidden="true" class="photo-arrow">‹</span>
+            </button>
+            <img id="portrait-carousel-img" src="images/covers/Portrait-1.png" alt="Portrait photo 1">
+            <div class="nightlife-caption" id="portrait-caption"></div>
+            <button class="photo-carousel-nav next" onclick="changePortraitPhoto(1)" aria-label="Next photo">
+              <span aria-hidden="true" class="photo-arrow">›</span>
+            </button>
+          </div>
+          <div class="photo-card-label">Portraits</div>
+        </div>
+
+        <div class="photo-card animal-card">
+          <div class="photo-card-img">
+            <button class="photo-carousel-nav prev" onclick="changeAnimalPhoto(-1)" aria-label="Previous photo">
+              <span aria-hidden="true" class="photo-arrow">‹</span>
+            </button>
+            <img id="animal-carousel-img" src="images/covers/animal-1.png" alt="Animal photo 1">
+            <div class="nightlife-caption" id="animal-caption"></div>
+            <button class="photo-carousel-nav next" onclick="changeAnimalPhoto(1)" aria-label="Next photo">
+              <span aria-hidden="true" class="photo-arrow">›</span>
+            </button>
+          </div>
+          <div class="photo-card-label">Animals</div>
+        </div>
+
+        <div class="photo-card sports-card">
+          <div class="photo-card-img">
+            <button class="photo-carousel-nav prev" onclick="changeSportsPhoto(-1)" aria-label="Previous photo">
+              <span aria-hidden="true" class="photo-arrow">‹</span>
+            </button>
+            <img id="sports-carousel-img" src="images/covers/Sports-1.png" alt="Sports photo 1">
+            <div class="nightlife-caption" id="sports-caption"></div>
+            <button class="photo-carousel-nav next" onclick="changeSportsPhoto(1)" aria-label="Next photo">
+              <span aria-hidden="true" class="photo-arrow">›</span>
+            </button>
+          </div>
+          <div class="photo-card-label">Sports</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIDEOGRAPHY -->
+    <div class="production-panel" id="panel-videography">
+      <div class="video-stage">
+        <div class="video-loading-screen" aria-live="polite">
+          <div class="video-loading-spinner" aria-hidden="true"></div>
+        </div>
+        <div class="video-grid">
+
+          <div class="video-card">
+            <div class="video-card-thumb">
+              <video playsinline muted autoplay loop preload="metadata" src="images/covers/Corperate Events.mp4"></video>
+              <button type="button" class="video-play-toggle" aria-label="Play Corporate Events video">▶</button>
+            </div>
+            <div class="video-card-label">Corporate Events</div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-card-thumb">
+              <video playsinline muted autoplay loop preload="metadata" src="images/covers/Music.mp4"></video>
+              <button type="button" class="video-play-toggle" aria-label="Play Music video">▶</button>
+            </div>
+            <div class="video-card-label">Music</div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-card-thumb">
+              <video playsinline muted autoplay loop preload="metadata" src="images/covers/Sports2.mp4"></video>
+              <button type="button" class="video-play-toggle" aria-label="Play Sports video">▶</button>
+            </div>
+            <div class="video-card-label">Sports</div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-card-thumb">
+              <video playsinline muted autoplay loop preload="metadata" src="images/covers/Interviews.mp4"></video>
+              <button type="button" class="video-play-toggle" aria-label="Play Interviews video">▶</button>
+            </div>
+            <div class="video-card-label">Interviews</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- BEHIND THE SCENES -->
+    <div class="production-panel" id="panel-bts">
+      <div class="production-copy-block">
+        <i class="ti ti-clapperboard production-copy-icon" aria-hidden="true"></i>
+        <h3>Behind the Scenes</h3>
+        <p>Raw, candid footage of the making-of — your team, your event, your process — captured alongside the final deliverable so you always have authentic content that shows how the magic happens.</p>
+      </div>
+    </div>
+
+    <!-- SCRIPT WRITING -->
+    <div class="production-panel" id="panel-scriptwriting">
+      <div class="production-copy-block">
+        <i class="ti ti-pencil production-copy-icon" aria-hidden="true"></i>
+        <h3>Script Writing</h3>
+        <p>Whether you have a script drafted or not, we'll analyze your audience, your goal, and the speaker's personality to create a human-made authentic message viewers will respect.</p>
+      </div>
+    </div>
+
+    <!-- POSTING -->
+    <div class="production-panel" id="panel-posting">
+      <div class="production-copy-block">
+        <i class="ti ti-send production-copy-icon" aria-hidden="true"></i>
+        <h3>Posting</h3>
+        <p>Consistent, on-brand posting so your content actually reaches people — scheduling, captions, and platform-specific formatting handled, so you can focus on what you do best.</p>
+      </div>
+    </div>
+
+    <div class="pricing-bar">
+      Pricing is tailored to your project — photography starts at $100/hour; video and full-package work is quoted based on scope and turnaround.<br>
+      Discounted rates for small artists &amp; non-profit organizations.
+    </div>
+
+    <div class="cta-center">
       <!-- BOOKING: Replace href with your Google Calendar appointment scheduling link -->
       <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book Now</a>
     </div>
   </section>
 
 
-  <!-- ====== REELS SECTION ====== -->
+  <!-- ====== ABOUT SECTION ====== -->
+  <section id="section-about" class="section" aria-label="About Kevin">
+    <div class="section-hero">
+      <h2 class="section-title">About Me</h2>
+      <p class="section-tagline">Kevdog Productions doesn't just provide photos and footage — we provide outcomes, turning documentaries, music videos, and political storytelling into results.</p>
+    </div>
+
+    <div class="about-inner">
+      <div class="about-profile">
+        <div class="about-avatar">
+          <img src="images/covers/Kevpic.png" alt="Kevin Heieis">
+        </div>
+        <div>
+          <h3 class="about-name">Kevin 'Kevdog' Heieis</h3>
+          <p class="about-role">Founder - Videographer, Photographer, Editor</p>
+          <p class="about-bio">
+            While graduating from UBC Engineering with a focus in Chemical and
+            Environmental Engineering in 2026, Kevin's time in college was significantly
+            focused on leadership. He served as a captain, a President,
+            and as the first-ever UBC VP Student Life elected to serve 60,000 UBC
+            students in 2025.
+          </p>
+          <p class="about-bio">
+            His unique ability to connect with anyone has helped him
+            build relationships with people from retail managers to Formula 1 CEOs.
+          </p>
+          <p class="about-bio">
+            Whether your project requires him to film while skiing backwards, or
+            climbing a mountain to covertly take engagement photos, Kevin is also
+            no stranger to adventure.
+          </p>
+          <p class="about-bio">
+            Fun fact! The Kevdog logo is animated from a real picture of his family
+            dog Sagan, aka "Saggy Waggy."
+          </p>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <h3>Ready to work together?</h3>
+        <p>Book a call with me or reach out directly - on email or Instagram.</p>
+        <div class="about-cta-btns">
+          <!-- BOOKING: Replace href with your Google Calendar appointment scheduling link -->
+          <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book via Google Calendar</a>
+          <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener" class="btn-outline instagram-brand-link">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igGradientAbout" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FED576"/><stop offset="0.26" stop-color="#F47133"/><stop offset="0.61" stop-color="#BC3081"/><stop offset="1" stop-color="#4C63D2"/></linearGradient></defs><rect width="24" height="24" rx="5.4" fill="url(#igGradientAbout)"/><rect x="5.8" y="5.8" width="12.4" height="12.4" rx="3.6" stroke="white" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" fill="none"/><circle cx="18.3" cy="5.7" r="1" fill="white"/></svg>
+            @kevs.fx
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====== REELS SECTION (kept, footer-only) ====== -->
   <section id="section-reels" class="section" aria-label="Short-form reels">
-    <!-- Reels header and tagline removed -->
+    <div class="section-hero">
+      <h2 class="section-title">Reels</h2>
+      <p class="section-tagline">A selection of short-form Instagram Reels.</p>
+    </div>
 
     <div class="reels-stage">
       <div class="reels-grid">
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DYgTzC6xShG/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DYgTzC6xShG/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Jazzy B Interview</div>
@@ -292,7 +432,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DVMU8awEpN_/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DVMU8awEpN_/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Vancouver City Council</div>
@@ -302,7 +442,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DPelh0fAAkq/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DPelh0fAAkq/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Underground Rave Recap</div>
@@ -312,7 +452,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DKfPhc2tj5e/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DKfPhc2tj5e/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Jama Mahlalela</div>
@@ -322,7 +462,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DFRX8F9Plh0/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DFRX8F9Plh0/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Engineering Week</div>
@@ -332,7 +472,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DOcYDE4iYL3/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DOcYDE4iYL3/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Homecoming Promo</div>
@@ -342,7 +482,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DV5JyIgkgT9/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DV5JyIgkgT9/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Thunderbird Dance Show</div>
@@ -352,7 +492,7 @@
 
       <div class="reel-link reel-embedded">
         <div class="reel-thumb">
-            <iframe src="https://www.instagram.com/reel/DQcTbvGkgr0/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+            <iframe data-src="https://www.instagram.com/reel/DQcTbvGkgr0/embed/" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
           </div>
         <div class="reel-meta">
           <div class="reel-desc">Rugby Finals</div>
@@ -360,7 +500,6 @@
         </div>
       </div>
 
-      <!-- UBC Homecoming reel removed -->
       </div>
     </div>
 
@@ -370,62 +509,11 @@
   </section>
 
 
-  <!-- ====== VIDEO SECTION ====== -->
-  <section id="section-video" class="section active" aria-label="Videography services">
-    <div class="video-stage">
-      <div class="video-loading-screen" id="video-loading-screen" aria-live="polite">
-        <div class="video-loading-spinner" aria-hidden="true"></div>
-      </div>
-      <div class="video-grid">
-
-      <div class="video-card">
-        <div class="video-card-thumb">
-          <video playsinline muted autoplay loop preload="metadata" src="images/covers/Corperate Events.mp4"></video>
-          <button type="button" class="video-play-toggle" aria-label="Play Corporate Events video">▶</button>
-        </div>
-        <div class="video-card-label">Corporate Events</div>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-thumb">
-          <video playsinline muted autoplay loop preload="metadata" src="images/covers/Music.mp4"></video>
-          <button type="button" class="video-play-toggle" aria-label="Play Music video">▶</button>
-        </div>
-        <div class="video-card-label">Music</div>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-thumb">
-          <video playsinline muted autoplay loop preload="metadata" src="images/covers/Sports2.mp4"></video>
-          <button type="button" class="video-play-toggle" aria-label="Play Sports video">▶</button>
-        </div>
-        <div class="video-card-label">Sports</div>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-thumb">
-          <video playsinline muted autoplay loop preload="metadata" src="images/covers/Interviews.mp4"></video>
-          <button type="button" class="video-play-toggle" aria-label="Play Interviews video">▶</button>
-        </div>
-        <div class="video-card-label">Interviews</div>
-      </div>
-
-      </div>
-    </div>
-
-    <div class="pricing-bar">
-      Pricing dependent on project and required turnaround time — same-day/overnight editing possible — please contact to discuss details.<br>
-      Discounted rates for new artists &amp; non-profit organizations
-    </div>
-
-    <div class="cta-center">
-      <a href="https://calendar.app.google/LQReLHfZyrhFx4rJ7" target="_blank" rel="noopener" class="btn-primary">Inquire Here</a>
-    </div>
-  </section>
-
-
-  <!-- ====== MEDIA TRAINING SECTION ====== -->
+  <!-- ====== MEDIA TRAINING SECTION (kept, footer-only) ====== -->
   <section id="section-mediatraining" class="section" aria-label="Media training services">
+    <div class="section-hero">
+      <h2 class="section-title">Media Training</h2>
+    </div>
     <blockquote class="mediatraining-credential">
       <p class="mediatraining-credential-text">
         "I've provided expert media consultation for politicians from the
@@ -461,8 +549,11 @@
   </section>
 
 
-  <!-- ====== CAMERA LESSONS SECTION ====== -->
+  <!-- ====== CAMERA LESSONS SECTION (kept, footer-only) ====== -->
   <section id="section-cameralessons" class="section" aria-label="Camera lessons">
+    <div class="section-hero">
+      <h2 class="section-title">Camera Lessons</h2>
+    </div>
     <div class="mediatraining-skills cameralessons-skills">
       <h3 class="mediatraining-skills-title cameralessons-skills-title">Single sessions by the hour, pick a topic to level up:</h3>
       <div class="mediatraining-skills-row cameralessons-skills-row">
@@ -492,59 +583,6 @@
     </div>
   </section>
 
-
-  <!-- ====== ABOUT SECTION ====== -->
-  <section id="section-about" class="section" aria-label="About Kevin">
-    <div class="section-hero">
-      <p class="section-tagline">Kevdog Productions doesn't just provide photos and footage — we provide outcomes, turning documentaries, music videos, and political storytelling into results.</p>
-    </div>
-
-    <div class="about-inner">
-      <div class="about-profile">
-        <div class="about-avatar">
-          <img src="images/covers/Kevpic.png" alt="Kevin Heieis">
-        </div>
-        <div>
-          <h3 class="about-name">Kevin 'Kevdog' Heieis</h3>
-          <p class="about-role">Founder - Videographer, Photographer, Editor</p>
-          <p class="about-bio">
-            While graduating from UBC Engineering with a focus in Chemical and
-            Environmental Engineering in 2026, Kevin's time in college was significantly
-            focused on leadership. He served as a captain, a President,
-            and as the first-ever UBC VP Student Life elected to serve 60,000 UBC
-            students in 2025.
-          </p>
-          <p class="about-bio">
-            His unique ability to connect with anyone has helped him
-            build relationships with people from retail managers to Formula 1 CEOs. 
-          </p>
-          <p class="about-bio">
-            Whether your project requires him to film while skiing backwards, or
-            climbing a mountain to covertly take engagement photos, Kevin is also
-            no stranger to adventure.
-          </p>
-          <p class="about-bio">
-            Fun fact! The Kevdog logo is animated from a real picture of his family
-            dog Sagan, aka "Saggy Waggy."
-          </p>
-        </div>
-      </div>
-
-      <div class="about-cta">
-        <h3>Ready to work together?</h3>
-        <p>Book a call with me or reach out directly - on email or Instagram.</p>
-        <div class="about-cta-btns">
-          <!-- BOOKING: Replace href with your Google Calendar appointment scheduling link -->
-          <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener" class="btn-primary">Book via Google Calendar</a>
-          <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener" class="btn-outline instagram-brand-link">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igGradientAbout" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FED576"/><stop offset="0.26" stop-color="#F47133"/><stop offset="0.61" stop-color="#BC3081"/><stop offset="1" stop-color="#4C63D2"/></linearGradient></defs><rect width="24" height="24" rx="5.4" fill="url(#igGradientAbout)"/><rect x="5.8" y="5.8" width="12.4" height="12.4" rx="3.6" stroke="white" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" fill="none"/><circle cx="18.3" cy="5.7" r="1" fill="white"/></svg>
-            @kevs.fx
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 
@@ -569,20 +607,26 @@
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <span class="footer-copyright">© 2025 Kevdog Productions · Kevin Heieis</span>
-  <div style="display:flex;gap:20px;align-items:center;">
-    <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener" aria-label="Instagram" class="instagram-brand-link">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igGradientFooter" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FED576"/><stop offset="0.26" stop-color="#F47133"/><stop offset="0.61" stop-color="#BC3081"/><stop offset="1" stop-color="#4C63D2"/></linearGradient></defs><rect width="24" height="24" rx="5.4" fill="url(#igGradientFooter)"/><rect x="5.8" y="5.8" width="12.4" height="12.4" rx="3.6" stroke="white" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" fill="none"/><circle cx="18.3" cy="5.7" r="1" fill="white"/></svg>
-      @kevs.fx
-    </a>
-    <a href="mailto:kevin@kevdog.productions">
-      <i class="ti ti-mail" aria-hidden="true"></i> Email
-    </a>
+  <div class="footer-row">
+    <span class="footer-copyright">© 2025 Kevdog Productions · Kevin Heieis</span>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/kevs.fx" target="_blank" rel="noopener" aria-label="Instagram" class="instagram-brand-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igGradientFooter" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FED576"/><stop offset="0.26" stop-color="#F47133"/><stop offset="0.61" stop-color="#BC3081"/><stop offset="1" stop-color="#4C63D2"/></linearGradient></defs><rect width="24" height="24" rx="5.4" fill="url(#igGradientFooter)"/><rect x="5.8" y="5.8" width="12.4" height="12.4" rx="3.6" stroke="white" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" fill="none"/><circle cx="18.3" cy="5.7" r="1" fill="white"/></svg>
+        @kevs.fx
+      </a>
+      <a href="mailto:kevin@kevdog.productions">
+        <i class="ti ti-mail" aria-hidden="true"></i> Email
+      </a>
+    </div>
+  </div>
+  <div class="footer-row footer-more">
+    <span class="footer-more-label">Also available:</span>
+    <a href="#" class="footer-more-link" onclick="switchTab('reels', this); return false;">Reels</a>
+    <a href="#" class="footer-more-link" onclick="switchTab('mediatraining', this); return false;">Media Training</a>
+    <a href="#" class="footer-more-link" onclick="switchTab('cameralessons', this); return false;">Camera Lessons</a>
   </div>
 </footer>
 
-</script>
-<script async defer src="https://www.instagram.com/embed.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
